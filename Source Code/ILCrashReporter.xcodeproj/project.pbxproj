@@ -286,7 +286,6 @@
 				6AF6C41406B18B4800C4D0C9 /* Resources */,
 				6AF6C41506B18B4800C4D0C9 /* Sources */,
 				6AF6C41606B18B4800C4D0C9 /* Frameworks */,
-				6A6B21DA0710600700057057 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -381,19 +380,6 @@
 /* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6A6B21DA0710600700057057 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "build_vars/GenBuildNumber.sh -increment";
-		};
 		6AF6C45B06B1B5AF00C4D0C9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
