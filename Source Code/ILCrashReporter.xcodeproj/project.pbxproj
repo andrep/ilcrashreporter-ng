@@ -9,23 +9,20 @@
 /* Begin PBXBuildFile section */
 		6A0C5EB106FA3B310084D2BB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		6A8E7286072EF38A008AF696 /* CrashReporterMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6AF6C42406B18B7700C4D0C9 /* CrashReporterMain.nib */; };
-		6A9112C5080331F1008F96C4 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9112C4080331F1008F96C4 /* CoreServices.framework */; };
-		6A9116DB0803425B008F96C4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A9116DA0803425B008F96C4 /* AddressBook.framework */; };
-		6A91A29206D23716005F6DC0 /* SMTPMailDelivery.h in Headers */ = {isa = PBXBuildFile; fileRef = 6A91A29006D23716005F6DC0 /* SMTPMailDelivery.h */; };
 		6A91A29306D23717005F6DC0 /* SMTPMailDelivery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A91A29106D23716005F6DC0 /* SMTPMailDelivery.m */; };
 		6A91A3E706D281BD005F6DC0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		6AF6C3BF06B061CF00C4D0C9 /* ILCrashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF6C3BD06B061CF00C4D0C9 /* ILCrashReporter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6AF6C3C006B061CF00C4D0C9 /* ILCrashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6C3BE06B061CF00C4D0C9 /* ILCrashReporter.m */; };
-		6AF6C42A06B18B7800C4D0C9 /* CrashReporterAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF6C41E06B18B7700C4D0C9 /* CrashReporterAppDelegate.h */; };
 		6AF6C42B06B18B7800C4D0C9 /* CrashReporterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6C41F06B18B7700C4D0C9 /* CrashReporterAppDelegate.m */; };
-		6AF6C42C06B18B7800C4D0C9 /* CrashReporterController.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF6C42006B18B7700C4D0C9 /* CrashReporterController.h */; };
 		6AF6C42D06B18B7800C4D0C9 /* CrashReporterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6C42106B18B7700C4D0C9 /* CrashReporterController.m */; };
 		6AF6C42E06B18B7800C4D0C9 /* CrashReporterIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6AF6C42206B18B7700C4D0C9 /* CrashReporterIcon.icns */; };
 		6AF6C43006B18B7800C4D0C9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6AF6C42506B18B7700C4D0C9 /* Localizable.strings */; };
-		6AF6C43106B18B7800C4D0C9 /* GetPID.h in Headers */ = {isa = PBXBuildFile; fileRef = 6AF6C42706B18B7700C4D0C9 /* GetPID.h */; };
 		6AF6C43206B18B7800C4D0C9 /* GetPID.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6C42806B18B7700C4D0C9 /* GetPID.m */; };
 		6AF6C44F06B1B01500C4D0C9 /* CrashReporter.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6AF6C41806B18B4800C4D0C9 /* CrashReporter.app */; };
 		6AF6C48006B1BD5A00C4D0C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6C47F06B1BD5A00C4D0C9 /* main.m */; };
+		7B3CE9550CE9AFDD00B6F0BA /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3CE9540CE9AFDD00B6F0BA /* AddressBook.framework */; };
+		7B7D6E340CE9941000B0DD52 /* RMObjectPath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D6E320CE9941000B0DD52 /* RMObjectPath.mm */; };
+		7B7D6E380CE9943100B0DD52 /* SystemProfileReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D6E2E0CE9935800B0DD52 /* SystemProfileReporter.m */; };
 		8DC2EF510486A6940098B216 /* ILCrashReporter_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* ILCrashReporter_Prefix.pch */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -54,9 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
-		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* ILCrashReporter_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILCrashReporter_Prefix.pch; sourceTree = "<group>"; };
 		6A07290408551AF000BC12AD /* Development.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Development.xcconfig; sourceTree = "<group>"; };
@@ -67,15 +62,9 @@
 		6A2C03FF0731A14500F85C97 /* Italian */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Italian; path = Italian.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A2C04000731A15A00F85C97 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6A2C044F0731B25100F85C97 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6A6B21A407105ABE00057057 /* build_number */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = build_number; sourceTree = "<group>"; };
-		6A6B21A507105ABE00057057 /* GenBuildNumber.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = GenBuildNumber.sh; sourceTree = "<group>"; };
-		6A6B21AC07105B2400057057 /* version_number */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = version_number; sourceTree = "<group>"; };
 		6A6B22260710665D00057057 /* LocalizeStrings.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = LocalizeStrings.sh; sourceTree = "<group>"; };
 		6A6B22990710830D00057057 /* MakeDocumentation.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = MakeDocumentation.sh; sourceTree = "<group>"; };
-		6A6B22B107109A9200057057 /* DoBuild.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = DoBuild.sh; sourceTree = "<group>"; };
 		6A8E72C807304091008AF696 /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
-		6A9112C4080331F1008F96C4 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
-		6A9116DA0803425B008F96C4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		6A91A29006D23716005F6DC0 /* SMTPMailDelivery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMTPMailDelivery.h; sourceTree = "<group>"; };
 		6A91A29106D23716005F6DC0 /* SMTPMailDelivery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMTPMailDelivery.m; sourceTree = "<group>"; };
 		6A984A4307FC4FE400B6F7B7 /* ChangeNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeNotes.txt; sourceTree = "<group>"; };
@@ -94,6 +83,11 @@
 		6AF6C42806B18B7700C4D0C9 /* GetPID.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GetPID.m; sourceTree = "<group>"; };
 		6AF6C45106B1B38700C4D0C9 /* LinkComponents.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = LinkComponents.sh; sourceTree = "<group>"; };
 		6AF6C47F06B1BD5A00C4D0C9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7B3CE9540CE9AFDD00B6F0BA /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
+		7B7D6E2D0CE9935800B0DD52 /* SystemProfileReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemProfileReporter.h; sourceTree = "<group>"; };
+		7B7D6E2E0CE9935800B0DD52 /* SystemProfileReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemProfileReporter.m; sourceTree = "<group>"; };
+		7B7D6E310CE9941000B0DD52 /* RMObjectPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMObjectPath.h; sourceTree = "<group>"; };
+		7B7D6E320CE9941000B0DD52 /* RMObjectPath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RMObjectPath.mm; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* ILCrashReporter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ILCrashReporter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -104,8 +98,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A91A3E706D281BD005F6DC0 /* Cocoa.framework in Frameworks */,
-				6A9112C5080331F1008F96C4 /* CoreServices.framework in Frameworks */,
-				6A9116DB0803425B008F96C4 /* AddressBook.framework in Frameworks */,
+				7B3CE9550CE9AFDD00B6F0BA /* AddressBook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,9 +138,8 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
-				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
-				6A91A55706D3FC8F005F6DC0 /* Libraries */,
+				7B3CE9540CE9AFDD00B6F0BA /* AddressBook.framework */,
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -170,25 +162,6 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
-				6A9112C4080331F1008F96C4 /* CoreServices.framework */,
-				6A9116DA0803425B008F96C4 /* AddressBook.framework */,
-			);
-			name = "Linked Frameworks";
-			sourceTree = "<group>";
-		};
-		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
-				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
-			);
-			name = "Other Frameworks";
-			sourceTree = "<group>";
-		};
 		32C88DFF0371C24200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -197,17 +170,9 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
-		6A91A55706D3FC8F005F6DC0 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Libraries;
-			sourceTree = "<group>";
-		};
 		6AF6C41C06B18B7700C4D0C9 /* CrashReporter */ = {
 			isa = PBXGroup;
 			children = (
-				6AF6C47F06B1BD5A00C4D0C9 /* main.m */,
 				6AF6C41D06B18B7700C4D0C9 /* CrashReporter-Info.plist */,
 				6AF6C41E06B18B7700C4D0C9 /* CrashReporterAppDelegate.h */,
 				6AF6C41F06B18B7700C4D0C9 /* CrashReporterAppDelegate.m */,
@@ -215,11 +180,16 @@
 				6AF6C42106B18B7700C4D0C9 /* CrashReporterController.m */,
 				6AF6C42206B18B7700C4D0C9 /* CrashReporterIcon.icns */,
 				6AF6C42406B18B7700C4D0C9 /* CrashReporterMain.nib */,
-				6AF6C42506B18B7700C4D0C9 /* Localizable.strings */,
 				6AF6C42706B18B7700C4D0C9 /* GetPID.h */,
 				6AF6C42806B18B7700C4D0C9 /* GetPID.m */,
+				6AF6C42506B18B7700C4D0C9 /* Localizable.strings */,
+				6AF6C47F06B1BD5A00C4D0C9 /* main.m */,
+				7B7D6E310CE9941000B0DD52 /* RMObjectPath.h */,
+				7B7D6E320CE9941000B0DD52 /* RMObjectPath.mm */,
 				6A91A29006D23716005F6DC0 /* SMTPMailDelivery.h */,
 				6A91A29106D23716005F6DC0 /* SMTPMailDelivery.m */,
+				7B7D6E2D0CE9935800B0DD52 /* SystemProfileReporter.h */,
+				7B7D6E2E0CE9935800B0DD52 /* SystemProfileReporter.m */,
 			);
 			name = CrashReporter;
 			path = Source/CrashReporter;
@@ -239,12 +209,8 @@
 		6AF6C45006B1B38700C4D0C9 /* build_vars */ = {
 			isa = PBXGroup;
 			children = (
-				6A6B22B107109A9200057057 /* DoBuild.sh */,
 				6A6B22990710830D00057057 /* MakeDocumentation.sh */,
 				6A6B22260710665D00057057 /* LocalizeStrings.sh */,
-				6A6B21A407105ABE00057057 /* build_number */,
-				6A6B21AC07105B2400057057 /* version_number */,
-				6A6B21A507105ABE00057057 /* GenBuildNumber.sh */,
 				6AF6C45106B1B38700C4D0C9 /* LinkComponents.sh */,
 				6A07290408551AF000BC12AD /* Development.xcconfig */,
 				6A07290C08551BCB00BC12AD /* Deployment.xcconfig */,
@@ -259,10 +225,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AF6C42A06B18B7800C4D0C9 /* CrashReporterAppDelegate.h in Headers */,
-				6AF6C42C06B18B7800C4D0C9 /* CrashReporterController.h in Headers */,
-				6AF6C43106B18B7800C4D0C9 /* GetPID.h in Headers */,
-				6A91A29206D23716005F6DC0 /* SMTPMailDelivery.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +367,8 @@
 				6AF6C43206B18B7800C4D0C9 /* GetPID.m in Sources */,
 				6AF6C48006B1BD5A00C4D0C9 /* main.m in Sources */,
 				6A91A29306D23717005F6DC0 /* SMTPMailDelivery.m in Sources */,
+				7B7D6E340CE9941000B0DD52 /* RMObjectPath.mm in Sources */,
+				7B7D6E380CE9943100B0DD52 /* SystemProfileReporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

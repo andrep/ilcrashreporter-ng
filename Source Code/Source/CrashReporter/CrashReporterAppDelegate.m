@@ -11,6 +11,7 @@
 #import "CrashReporterAppDelegate.h"
 #import "GetPID.h"
 #import "SMTPMailDelivery.h"
+#import "SystemProfileReporter.h"
 
 #include <unistd.h>
 #include <sys/sysctl.h>
@@ -448,32 +449,73 @@
 
 - (BOOL)_submitCrashReportToApple:(NSDictionary*)report
 {
-	if(_processName == nil) return NO;
+	if(_processName == nil)
+	{
+		NSLog(@"Couldn't determine process name");
+		return NO;
+	}
 	
 	NSString* versionString = [reportController versionStringForApplication:_processName];
-	if(versionString == nil) return NO;
+	if(versionString == nil)
+	{
+		NSLog(@"Couldn't determine application version");
+		return NO;
+	}
 	
 	NSString* crashLog = [reportController anonymisedCrashLog:_processName];
-	if(crashLog == nil) return NO;
+	if(crashLog == nil)
+	{
+		NSLog(@"Couldn't locate crash log for %@", _processName);
+		return NO;
+	}
 
 	NSString* temporaryCrashLogPath = [CrashReporterAppDelegate _temporaryFilename];
-	if(temporaryCrashLogPath == nil) return NO;
+	if(temporaryCrashLogPath == nil)
+	{
+		NSLog(@"Unable to determine filename for temporary crash log path");
+		return NO;
+	}
 	
 	const BOOL wroteTemporaryCrashLogSuccessfully = [crashLog writeToFile:temporaryCrashLogPath atomically:NO];
-	if(!wroteTemporaryCrashLogSuccessfully) return NO;
+	if(!wroteTemporaryCrashLogSuccessfully)
+	{
+		NSLog(@"Couldn't write temporary crash log to %@", temporaryCrashLogPath);
+		return NO;
+	}
 	
 	NSString* notes = [report objectForKey:@"notes"] ? [report objectForKey:@"notes"] : @"";
 	
+	NSData* systemProfile = [SystemProfileReporter systemProfileReport];
+	if(systemProfile == nil)
+	{
+		NSLog(@"System profile couldn't be generated");
+		return NO;
+	}
+	
+	NSString* systemProfileReportPath = [CrashReporterAppDelegate _temporaryFilename];
+	if(systemProfileReportPath == nil)
+	{
+		NSLog(@"Unable to determine filename for temporary system profile report path");
+	}
+	
+	const BOOL wroteSystemProfileReportSuccessfully = [systemProfile writeToFile:systemProfileReportPath atomically:NO];
+	if(!wroteSystemProfileReportSuccessfully)
+	{
+		NSLog(@"Couldn't write system profile to %@", systemProfileReportPath);
+		return NO;
+	}
+	
 	NSDictionary* formInformation = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSString stringWithFormat:@"%@ crash", _processName], @"url_from",
-		[report objectForKey:notes] ? [report objectForKey:notes] : @"", @"feedback_comments",
-		@"9", @"bug_type",
-		_processName, @"app_name",
-		versionString, @"app_version",
-		[NSString stringWithFormat:@"%@:%@", [self _systemProductVersion], [self _systemProductBuildVersion]], @"os_version",
-		[NSString stringWithFormat:@"%@ (%luMB)", [self _machineModelName], [self _machinePhysicalMemoryInMegabytes]], @"machine_config",
-		[NSString stringWithFormat:@"<%@", temporaryCrashLogPath], @"page_source",
-		nil];
+									 [NSString stringWithFormat:@"%@ crash", _processName], @"url_from",
+									 [report objectForKey:notes] ? [report objectForKey:notes] : @"", @"feedback_comments",
+									 @"9", @"bug_type",
+									 _processName, @"app_name",
+									 versionString, @"app_version",
+									 [NSString stringWithFormat:@"%@:%@", [self _systemProductVersion], [self _systemProductBuildVersion]], @"os_version",
+									 [NSString stringWithFormat:@"%@ (%luMB)", [self _machineModelName], [self _machinePhysicalMemoryInMegabytes]], @"machine_config",
+									 [NSString stringWithFormat:@"<%@", temporaryCrashLogPath], @"page_source",
+									 [NSString stringWithFormat:@"<%@", systemProfileReportPath], @"system_profile",
+									 nil];
 
 	NSMutableArray* curlArguments = [NSMutableArray array];
 	
@@ -490,7 +532,11 @@
 	
 	[curlArguments addObject:@"http://radarsubmissions.apple.com/process.jsp"];
 	
-	if(![[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/curl"]) return NO;
+	if(![[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/curl"])
+	{
+		NSLog(@"/usr/bin/curl doesn't exist?");
+		return NO;
+	}
 	
 	NSTask* curlTask = [[NSTask alloc] init];
 	[curlTask setLaunchPath:@"/usr/bin/curl"];
