@@ -19,7 +19,6 @@
 - (void)setupLocalizedFields;
 - (void)fillOutUserCredentials;
 - (NSString*)gatherCrashLog:(NSString*)appName;
-- (NSString*)gatherCrashLogForApplication:(NSString*)appName fromLocation:(NSString*)crashLogPath;
 - (NSString*)gatherConsoleLogForApplication:(NSString*)appName withProcessID:(int)processID;
 - (NSString*)currentArchitecture;
 
@@ -124,6 +123,50 @@
 	}
 }
 
+- (NSString*)pathToCrashLogForApplication:(NSString*)appName
+{
+	NSString* crashLogName = [NSString stringWithFormat:@"%@.crash.log", appName];
+	
+	NSArray* possibleDirectoriesForCrashLog = [NSArray arrayWithObjects:
+		[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/CrashReporter"],
+		@"/Library/Logs/CrashReporter",
+		nil];
+	
+	NSEnumerator* e = [possibleDirectoriesForCrashLog objectEnumerator];
+	NSString* directoryToSearchForCrashLog = nil;
+	while(directoryToSearchForCrashLog = [e nextObject])
+	{
+		NSString* possibleCrashLogLocation = [directoryToSearchForCrashLog stringByAppendingPathComponent:crashLogName];
+		
+		if([[NSFileManager defaultManager] fileExistsAtPath:possibleCrashLogLocation]) return possibleCrashLogLocation;
+	}
+	
+	return nil;
+}
+
+- (NSString*)versionStringForApplication:(NSString*)appName
+{
+	NSString* crashLog = [self gatherCrashLog:appName];
+	if(crashLog == nil) return nil;
+	
+	const NSRange rangeForVersionField = [crashLog rangeOfString:@"\n\nVersion: "];
+	if(rangeForVersionField.location == NSNotFound) return nil;
+	
+	const unsigned indexOfVersionFieldValueStart = NSMaxRange(rangeForVersionField);
+	
+	const NSRange endOfLineSearchRange = NSMakeRange(indexOfVersionFieldValueStart,
+													 [crashLog length]-indexOfVersionFieldValueStart);
+	if(NSMaxRange(endOfLineSearchRange) > [crashLog length]) return nil;
+	
+	const unsigned indexOfVersionFieldValueEndOfLine = [crashLog rangeOfString:@"\n" options:0 range:endOfLineSearchRange].location;
+	if(indexOfVersionFieldValueEndOfLine == NSNotFound) return nil;
+	
+	const NSRange versionFieldValueRange = NSMakeRange(indexOfVersionFieldValueStart,
+													   indexOfVersionFieldValueEndOfLine-indexOfVersionFieldValueStart);
+	
+	return [crashLog substringWithRange:versionFieldValueRange];
+}
+
 @end
 
 @implementation CrashReporterController(Private)
@@ -189,69 +232,46 @@
 
 - (NSString*)gatherCrashLog:(NSString*)appName
 {
-	NSString* crashLog = nil;
-	
-	// First try in NSHomeDirectory()...
-	crashLog = [self gatherCrashLogForApplication:appName
-									 fromLocation:[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/CrashReporter"]];
-	
-	// ...but if that doesn't work, try /Library/Logs/CrashReporter
-	if(!crashLog) {
-		crashLog = [self gatherCrashLogForApplication:appName
-										 fromLocation:@"/Library/Logs/CrashReporter"];
-	}
-	
-	// If we still can't find it, use placeholders and log a message
-	if(!crashLog) {
-		NSLog(@"Could not find crashlog for %@", appName);
-		crashLog = NSLocalizedString(@"Could not locate crash report.", @"Missing crash report");
-	}
-	
-	return crashLog;
-}
-
-- (NSString*)gatherCrashLogForApplication:(NSString*)appName fromLocation:(NSString*)crashLogPath
-{
-	NSString	*crashLogName;
-	NSString	*crashLog = nil;
-	
-	crashLogName = [NSString stringWithFormat:@"%@.crash.log", appName];
-	crashLogPath = [crashLogPath stringByAppendingPathComponent:crashLogName];
-	if(crashLogPath && [[NSFileManager defaultManager] fileExistsAtPath:crashLogPath])
+	NSString* crashLogPath = [self pathToCrashLogForApplication:appName];
+	if(!crashLogPath)
 	{
-		crashLog = [NSString stringWithContentsOfFile:crashLogPath];
+		NSLog(@"Could not find crashlog for %@", appName);
+		return NSLocalizedString(@"Could not locate crash report.", @"Missing crash report");
+	}
+	
+	NSString* crashLog = [NSString stringWithContentsOfFile:crashLogPath];
+	if(!crashLog)
+	{
+		NSLog(@"Could not load crashlog: %@", crashLogPath);
+		return nil;
+	}
+	
+	NSRange delimRng;
+	
+	delimRng = [crashLog rangeOfString:@"**********" options:NSBackwardsSearch];
+	if((delimRng.length != 0) && (delimRng.location != NSNotFound))
+	{
+		NSRange logRange;
+		
+		// Crash log contains more logs - only need the last one
+		logRange.location = delimRng.location + delimRng.length;
+		logRange.length = [crashLog length] - logRange.location;
+		crashLog = [crashLog substringWithRange:logRange];
+		
+		// Insert a line to make it easier to match stripped universal binary versions with the unstripped version
 		if(crashLog)
 		{
-			NSRange delimRng;
+			NSRange		logInsertPoint;
 			
-			delimRng = [crashLog rangeOfString:@"**********" options:NSBackwardsSearch];
-			if((delimRng.length != 0) && (delimRng.location != NSNotFound))
+			logInsertPoint = [crashLog rangeOfString:@"Date/Time:"];
+			if((logInsertPoint.length != 0) && (logInsertPoint.location != NSNotFound))
 			{
-				NSRange logRange;
-				
-				// Crash log contains more logs - only need the last one
-				logRange.location = delimRng.location + delimRng.length;
-				logRange.length = [crashLog length] - logRange.location;
-				crashLog = [crashLog substringWithRange:logRange];
-				
-				// Insert a line to make it easier to match stripped universal binary versions with the unstripped version
-				if(crashLog)
-				{
-					NSRange		logInsertPoint;
-					
-					logInsertPoint = [crashLog rangeOfString:@"Date/Time:"];
-					if((logInsertPoint.length != 0) && (logInsertPoint.location != NSNotFound))
-					{
-						crashLog = [NSString stringWithFormat:@"%@Architecture:   %@\n%@",
-							[crashLog substringToIndex:logInsertPoint.location],
-							[self currentArchitecture],
-							[crashLog substringFromIndex:logInsertPoint.location]];
-					}
-				}
+				crashLog = [NSString stringWithFormat:@"%@Architecture:   %@\n%@",
+					[crashLog substringToIndex:logInsertPoint.location],
+					[self currentArchitecture],
+					[crashLog substringFromIndex:logInsertPoint.location]];
 			}
 		}
-		else
-			NSLog(@"Could not load crashlog: %@", crashLogPath);
 	}
 	
 	return crashLog;
