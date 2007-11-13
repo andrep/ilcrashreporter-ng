@@ -9,37 +9,37 @@
 /* Begin PBXBuildFile section */
 		6AA8E2A307183EFD00287131 /* SampleCrashApp.h in Resources */ = {isa = PBXBuildFile; fileRef = 6AA8E2A107183EFD00287131 /* SampleCrashApp.h */; };
 		6AA8E2A407183EFD00287131 /* SampleCrashApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA8E2A207183EFD00287131 /* SampleCrashApp.m */; };
-		6AA8E2D50718448500287131 /* ILCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AA8E2D40718448500287131 /* ILCrashReporter.framework */; };
-		6AA8E2E20718470A00287131 /* ILCrashReporter.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6AA8E2D40718448500287131 /* ILCrashReporter.framework */; };
+		7BB732B50CE97C6700CA3A8E /* ILCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BB732B00CE97C4F00CA3A8E /* ILCrashReporter.framework */; };
+		7BB732C50CE97D0F00CA3A8E /* ILCrashReporter.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7BB732B00CE97C4F00CA3A8E /* ILCrashReporter.framework */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		4A9504CCFFE6A4B311CA0CBA /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				ZERO_LINK = YES;
-			};
-			name = Development;
+/* Begin PBXContainerItemProxy section */
+		7BB732AF0CE97C4F00CA3A8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BB732A60CE97C4E00CA3A8E /* ILCrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = ILCrashReporter;
 		};
-		4A9504CDFFE6A4B311CA0CBA /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
+		7BB732B10CE97C4F00CA3A8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BB732A60CE97C4E00CA3A8E /* ILCrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6AF6C41806B18B4800C4D0C9;
+			remoteInfo = CrashReporter;
 		};
-/* End PBXBuildStyle section */
+		7BB732B30CE97C5E00CA3A8E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BB732A60CE97C4E00CA3A8E /* ILCrashReporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = ILCrashReporter;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		6AA8E2E1071846F700287131 /* CopyFiles */ = {
@@ -48,7 +48,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6AA8E2E20718470A00287131 /* ILCrashReporter.framework in CopyFiles */,
+				7BB732C50CE97D0F00CA3A8E /* ILCrashReporter.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +64,7 @@
 		32CA4F630368D1EE00C91783 /* Sample Crasher_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Sample Crasher_Prefix.pch"; sourceTree = "<group>"; };
 		6AA8E2A107183EFD00287131 /* SampleCrashApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SampleCrashApp.h; sourceTree = "<group>"; };
 		6AA8E2A207183EFD00287131 /* SampleCrashApp.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SampleCrashApp.m; sourceTree = "<group>"; };
-		6AA8E2D40718448500287131 /* ILCrashReporter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ILCrashReporter.framework; path = ../ILCrashReporter.framework; sourceTree = SOURCE_ROOT; };
+		7BB732A60CE97C4E00CA3A8E /* ILCrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ILCrashReporter.xcodeproj; path = "../Source Code/ILCrashReporter.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Sample Crasher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sample Crasher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -74,8 +74,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BB732B50CE97C6700CA3A8E /* ILCrashReporter.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				6AA8E2D50718448500287131 /* ILCrashReporter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,7 +94,6 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6AA8E2D40718448500287131 /* ILCrashReporter.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -120,6 +119,7 @@
 		29B97314FDCFA39411CA2CEA /* Sample Crasher */ = {
 			isa = PBXGroup;
 			children = (
+				7BB732A60CE97C4E00CA3A8E /* ILCrashReporter.xcodeproj */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -157,6 +157,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7BB732A70CE97C4F00CA3A8E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BB732B00CE97C4F00CA3A8E /* ILCrashReporter.framework */,
+				7BB732B20CE97C4F00CA3A8E /* CrashReporter.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -164,24 +173,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A0729380855296E00BC12AD /* Build configuration list for PBXNativeTarget "Sample Crasher" */;
 			buildPhases = (
-				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
+				8D1107290486CEB800E47090 /* Resources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				7B7D6B690CE9808300B0DD52 /* ShellScript */,
 				6AA8E2E1071846F700287131 /* CopyFiles */,
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sample Crasher_Prefix.pch";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = "Sample Crasher";
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
+				7BB732B40CE97C5E00CA3A8E /* PBXTargetDependency */,
 			);
 			name = "Sample Crasher";
 			productInstallPath = "$(HOME)/Applications";
@@ -195,20 +196,39 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 6A07293C0855296E00BC12AD /* Build configuration list for PBXProject "Sample Crasher" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504CCFFE6A4B311CA0CBA /* Development */,
-				4A9504CDFFE6A4B311CA0CBA /* Deployment */,
-			);
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Sample Crasher */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 7BB732A70CE97C4F00CA3A8E /* Products */;
+					ProjectRef = 7BB732A60CE97C4E00CA3A8E /* ILCrashReporter.xcodeproj */;
+				},
+			);
+			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Sample Crasher */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		7BB732B00CE97C4F00CA3A8E /* ILCrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ILCrashReporter.framework;
+			remoteRef = 7BB732AF0CE97C4F00CA3A8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		7BB732B20CE97C4F00CA3A8E /* CrashReporter.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = CrashReporter.app;
+			remoteRef = 7BB732B10CE97C4F00CA3A8E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -223,6 +243,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7B7D6B690CE9808300B0DD52 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ln -sf ../../../\"Source Code\"/build/\"$CONFIGURATION\"/ILCrashReporter.framework \"$BUILD_DIR\"/\"$CONFIGURATION\"/\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -234,6 +270,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7BB732B40CE97C5E00CA3A8E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ILCrashReporter;
+			targetProxy = 7BB732B30CE97C5E00CA3A8E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
@@ -255,11 +299,16 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		6A0729390855296E00BC12AD /* Development */ = {
+		6A0729390855296E00BC12AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = ../;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"../Source Code/build/$(BUILD_STYLE)\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../Source Code/build/Debug\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -272,13 +321,18 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		6A07293A0855296E00BC12AD /* Deployment */ = {
+		6A07293A0855296E00BC12AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = ../;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../Source Code/build/Debug\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"../Source Code/build/$(BUILD_STYLE)\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -289,23 +343,17 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		6A07293B0855296E00BC12AD /* Default */ = {
+		6A07293D0855296E00BC12AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Sample Crasher_Prefix.pch";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = "Sample Crasher";
-				WRAPPER_EXTENSION = app;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Default;
+			name = Debug;
 		};
-		6A07293D0855296E00BC12AD /* Development */ = {
+		6A07293E0855296E00BC12AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -315,31 +363,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Development;
-		};
-		6A07293E0855296E00BC12AD /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = Deployment;
-		};
-		6A07293F0855296E00BC12AD /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = Default;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -347,22 +371,20 @@
 		6A0729380855296E00BC12AD /* Build configuration list for PBXNativeTarget "Sample Crasher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A0729390855296E00BC12AD /* Development */,
-				6A07293A0855296E00BC12AD /* Deployment */,
-				6A07293B0855296E00BC12AD /* Default */,
+				6A0729390855296E00BC12AD /* Debug */,
+				6A07293A0855296E00BC12AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 		6A07293C0855296E00BC12AD /* Build configuration list for PBXProject "Sample Crasher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A07293D0855296E00BC12AD /* Development */,
-				6A07293E0855296E00BC12AD /* Deployment */,
-				6A07293F0855296E00BC12AD /* Default */,
+				6A07293D0855296E00BC12AD /* Debug */,
+				6A07293E0855296E00BC12AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
