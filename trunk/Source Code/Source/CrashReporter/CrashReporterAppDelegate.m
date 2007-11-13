@@ -12,6 +12,8 @@
 #import "GetPID.h"
 #import "SMTPMailDelivery.h"
 
+#include <sys/sysctl.h>
+
 @interface CrashReporterAppDelegate(Private)
 
 - (void)_suppressAppleCrashNotify;
@@ -19,6 +21,12 @@
 - (void)_appLaunched:(NSNotification *)notification;
 - (void)_displayCrashNotificationForProcess:(NSString*)processName;
 - (void)_serviceCrashAlert;
+- (void)_submitCrashReportToApple:(NSDictionary*)report;
+- (NSDictionary*)_systemVersionDictionary;
+- (NSString*)_systemProductVersion;
+- (NSString*)_systemProductBuildVersion;
+- (NSString*)_machineModelName;
+- (unsigned long)_machinePhysicalMemoryInMegabytes;
 
 @end
 
@@ -130,6 +138,8 @@
 										 protocol:NSSMTPDeliveryProtocol];
 		}
 #endif
+		
+		[self _submitCrashReportToApple:report];
 
 		//[ta release]; 
 		[fw release];
@@ -332,6 +342,97 @@
 		//[NSApp terminate:self];
 	}
 	//NSLog(@"appTerminated: %@", notification);
+}
+
+- (NSDictionary*)_systemVersionDictionary
+{
+	static NSDictionary* systemVersionPropertyList = nil;
+	
+	// The documentation for gestaltSystemVersion says to use this file to
+	// determine the Mac OS X version number, so I ain't going to argue with
+	// it...
+	
+	if(systemVersionPropertyList == nil)
+	{
+		systemVersionPropertyList = [[NSDictionary dictionaryWithContentsOfFile:@"/System/Library/CoreServices/SystemVersion.plist"] retain];
+	}
+	
+	return systemVersionPropertyList;
+}
+
+- (NSString*)_systemProductVersion
+{
+	return [[self _systemVersionDictionary] objectForKey:@"ProductVersion"];
+}
+
+- (NSString*)_systemProductBuildVersion
+{
+	return [[self _systemVersionDictionary] objectForKey:@"ProductBuildVersion"];
+}
+
+- (NSString*)_machineModelName
+{
+	size_t hwModelSysctlBufferSize = 0;
+	const int sysctlResult1 = sysctlbyname("hw.model", NULL, &hwModelSysctlBufferSize, NULL, 0);
+	NSAssert1(sysctlResult1 == 0, @"sysctlbyname(1) returned non-zero value: %d", sysctlResult1);
+	
+	char hwModelBuffer[hwModelSysctlBufferSize];
+	const int sysctlResult2 = sysctlbyname("hw.model", hwModelBuffer, &hwModelSysctlBufferSize, NULL, 0);
+	NSAssert1(sysctlResult2 == 0, @"sysctlbyname(2) returned non-zero value: %d", sysctlResult1);
+	
+	return [NSString stringWithUTF8String:hwModelBuffer];
+}
+
+- (unsigned long)_machinePhysicalMemoryInMegabytes
+{
+	long physicalRAMSizeInMegabytes;
+	
+	const OSErr gestaltResult = Gestalt(gestaltPhysicalRAMSizeInMegabytes, &physicalRAMSizeInMegabytes);
+	NSCAssert1(gestaltResult == noErr, @"gestaltPhysicalRAMSizeInMegabytes returned %d", gestaltResult);
+	
+	return physicalRAMSizeInMegabytes;
+}
+
+- (void)_submitCrashReportToApple:(NSDictionary*)report
+{
+	NSLog(@"Report: %@", report);
+	
+	if(_processName == nil) return;
+	
+	NSString* versionString = [reportController versionStringForApplication:_processName];
+	if(versionString == nil) return;
+	
+	NSString* crashLogPath = [reportController pathToCrashLogForApplication:_processName];
+	if(crashLogPath == nil) return;
+	
+#warning Check whether feedback_comments is sent if the notes is empty
+	NSString* notes = [report objectForKey:@"notes"] ? [report objectForKey:@"notes"] : @"";
+	
+	NSDictionary* formInformation = [NSDictionary dictionaryWithObjectsAndKeys:
+		[NSString stringWithFormat:@"%@ crash", _processName], @"url_from",
+		[report objectForKey:notes] ? [report objectForKey:notes] : @"", @"feedback_comments",
+		@"9", @"bug_type",
+		_processName, @"app_name",
+		versionString, @"app_version",
+		[NSString stringWithFormat:@"%@:%@", [self _systemProductVersion], [self _systemProductBuildVersion]], @"os_version",
+		[NSString stringWithFormat:@"%@ (%luMB)", [self _machineModelName], [self _machinePhysicalMemoryInMegabytes]], @"machine_config",
+		[NSString stringWithFormat:@"@%@", crashLogPath], @"page_source",
+		nil];
+	
+	NSMutableArray* curlArguments = [NSMutableArray array];
+
+	NSEnumerator* formInformationEnumerator = [formInformation keyEnumerator];
+	NSString* formKey = nil;
+	while(formKey = [formInformationEnumerator nextObject])
+	{
+		NSString* formValue = [formInformation objectForKey:formKey];
+		[curlArguments addObject:@"-F"];
+		[curlArguments addObject:[NSString stringWithFormat:@"%@=%@", formKey, formValue]];
+	}
+	
+	[curlArguments addObject:@"http://radarsubmissions.apple.com/process.jsp"];
+	
+	NSLog(@"curlArguments: %@", curlArguments);
 }
 
 - (void)_appLaunched:(NSNotification *)notification
