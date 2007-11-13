@@ -209,6 +209,11 @@
 	if(_smtpPort == 0)
 		_smtpPort = 25;
 
+	if ((_processToWatch == 0) || (_reportEmail == nil) || ([_reportEmail isEqualToString:@""])) {
+		_shouldQuit = YES;
+		[NSApp terminate:nil];
+	}
+	
 #if DEBUG
 	NSLog(@"%@", [[NSProcessInfo processInfo] arguments]);
 #endif
@@ -280,7 +285,10 @@
 			[reportController prepareReportForApplication:_processName process:_processToWatch companyName:_companyName];
 		}
 		else
+		{
 			_shouldQuit = YES;
+			[NSApp terminate:nil];
+		}
 	}
 	
 }
@@ -323,7 +331,10 @@
 #if DEBUG
 		NSLog(@"Bye bye");
 #endif
-		[NSApp terminate:self];
+		if (!firstBlood) {
+			_shouldQuit = YES;
+			[NSApp terminate:self];
+		}
 	}
 }
 
