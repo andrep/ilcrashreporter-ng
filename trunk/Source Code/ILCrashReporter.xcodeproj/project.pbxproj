@@ -353,6 +353,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 6A0728FD08551A2000BC12AD /* Build configuration list for PBXProject "ILCrashReporter" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -367,6 +368,7 @@
 			mainGroup = 0867D691FE84028FC02AAC07 /* ILCrashReporter */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* ILCrashReporter */,
 				6AF6C41706B18B4800C4D0C9 /* CrashReporter */,
@@ -672,6 +674,7 @@
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/Framework/ILCrashReporter_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
