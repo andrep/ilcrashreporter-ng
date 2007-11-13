@@ -1,0 +1,59 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf110
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;\f2\fnil\fcharset77 Monaco;
+}
+{\colortbl;\red255\green255\blue255;}
+\paperw11899\paperh16839\margl1440\margr1440\vieww11420\viewh14200\viewkind0
+\pard\tx565\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+
+\f0\b\fs34 \cf0 ILCrashReporter framework
+\f1\b0\fs24 \
+\
+The ILCrashReporter framework enables developers to easily integrate crash reporting facilities into existing or new applications.\
+\
+The ILCrashReporter works much like the Crash Reporter built into the operating system. However, for some reason Apple does not provide a way for developers to get access to the reports for their own applications. This problem should be solved by using the ILCrashReporter which will mail the crash reports directly to the developer.\
+\
+\
+\pard\tx565\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+
+\f0\b \cf0 How to use
+\f1\b0 \
+\
+The ILCrashReporter.framework must be placed in the Frameworks folder of the application that it is set to monitor. The easiest way to do this in Xcode is to use a "Copy Files Build Phase" with the destination set to "Frameworks".\
+\
+In order to enable ILCrashReporter to monitor your application it must be launched using the following message:\
+\
+\pard\tx500\tx1120\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural
+
+\f2\fs20 \cf0 \CocoaLigature0 	[[ILCrashReporter defaultReporter]\
+\pard\tx960\tx1920\tx2880\tx3840\tx4800\tx5760\tx6720\tx7680\tx8640\tx9600\tx10560\tx11520\tx12480\tx13440\tx14400\tx15360\tx16320\tx17280\tx18240\tx19200\tx20160\tx21120\tx22080\tx23040\tx24000\tx24960\tx25920\tx26880\tx27840\tx28800\tx29760\tx30720\tx31680\tx32640\tx33600\tx34560\tx35520\tx36480\tx37440\tx38400\tx39360\tx40320\tx41280\tx42240\tx43200\tx44160\tx45120\tx46080\tx47040\tx48000\tx48960\tx49920\tx50880\tx51840\tx52800\tx53760\tx54720\tx55680\tx56640\tx57600\tx58560\tx59520\tx60480\tx61440\tx62400\tx63360\tx64320\tx65280\tx66240\tx67200\tx68160\tx69120\tx70080\tx71040\tx72000\tx72960\tx73920\tx74880\tx75840\tx76800\tx77760\tx78720\tx79680\tx80640\tx81600\tx82560\tx83520\tx84480\tx85440\tx86400\tx87360\tx88320\tx89280\tx90240\tx91200\tx92160\tx93120\tx94080\tx95040\tx96000\ql\qnatural
+\cf0 	launchReporterForCompany:@"My Company"\
+	reportAddr:@"my.report.addr@my.company"];\
+\
+\pard\tx565\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+
+\f1\fs24 \cf0 \CocoaLigature1 You would typically do this early in your applications launch cycle so any crashes during launch will be detected.\
+\
+As you might already have guessed from the above sample, ILCrashReporter only runs on Cocoa. There are no plans for providing it for Carbon, Java or other platforms. It has been tested on Mac OS X 10.3.5 but should work on 10.2 as well.\
+\
+\
+\pard\tx565\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+
+\f0\b \cf0 A word on privacy
+\f1\b0 \
+\
+ILCrashReporter uses the smtp mail protocol to send the crash report. This is done by sending the mail directly to the receiving mail server without using the users email setup.\
+\
+The ILCrashReporter will not gather any personal information for the computer it is running on - unless the user types it in himself. The email address specified at launch will be used as the "from" address so the user remains anonymous. The only thing that is transfered is the IP address and host name of the computer the report is sent from, but that is actually also gathered automatically be the receiving mail server.\
+\
+\
+
+\f0\b License terms
+\f1\b0 \
+\
+You may include and distribute ILCrashReporter free of charge, with or without modifications, in your own application provided that you follow the full license terms included in the framework header file. Since the framework is free of charge and provided "as is" we can only offer very limited technical support if it will not work as expected. However you are welcome to post suggestions for improvements or bug reports at the developer forum (http://www.infinite-loop.dk/forum/). Issues of a more delicate nature can be directed to feedback@infinite-loop.dk\
+\
+You are free to modify the source code in any way you like, but please report any bug fixes or improvements back to us so we can include it in the official version of ILCrashReporter.\
+\
+ILCrashReporter is Copyright \'a9 2004-2005 Claus Broch, Infinite Loop. All rights reserved.\
+\
+}
