@@ -12,6 +12,7 @@
 #import "GetPID.h"
 #import "SMTPMailDelivery.h"
 
+#include <unistd.h>
 #include <sys/sysctl.h>
 
 @interface CrashReporterAppDelegate(Private)
@@ -21,7 +22,7 @@
 - (void)_appLaunched:(NSNotification *)notification;
 - (void)_displayCrashNotificationForProcess:(NSString*)processName;
 - (void)_serviceCrashAlert;
-- (void)_submitCrashReportToApple:(NSDictionary*)report;
+- (BOOL)_submitCrashReportToApple:(NSDictionary*)report;
 - (NSDictionary*)_systemVersionDictionary;
 - (NSString*)_systemProductVersion;
 - (NSString*)_systemProductBuildVersion;
@@ -54,6 +55,10 @@
 {
 	if(report)
 	{
+		const BOOL submittedToAppleSuccessfully = [self _submitCrashReportToApple:report];
+		if(submittedToAppleSuccessfully) NSLog(@"Succesfully sent crash report for %@ to Apple", _processName);
+		else NSLog(@"Couldn't submit crash report for %@ to Apple", _processName);
+		
 		//NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults]; 
 		//NSString* smtpFromAddress = [defaults stringForKey:PMXSMTPFromAddress]; 
 		NSString	*subject;
@@ -139,8 +144,6 @@
 		}
 #endif
 		
-		[self _submitCrashReportToApple:report];
-
 		//[ta release]; 
 		[fw release];
 		
@@ -393,19 +396,61 @@
 	return physicalRAMSizeInMegabytes;
 }
 
-- (void)_submitCrashReportToApple:(NSDictionary*)report
++ (NSString*)_temporaryFilename
 {
-	NSLog(@"Report: %@", report);
-	
-	if(_processName == nil) return;
+	for(;;)
+	{
+		NSString* temporaryFilenameTemplate = [NSTemporaryDirectory() stringByAppendingPathComponent:@"ILCrashReporter-XXXXXX"];
+		
+		// Need to strdup() the result of -fileSystemRepresentation below
+		// since mktemp() overwrites the buffer
+		char* cTemporaryFilenameTemplate = strdup([temporaryFilenameTemplate fileSystemRepresentation]);
+
+		// Using mktemp() is safe here since we use open(2) with O_EXCL below:
+		// see mktemp(3) for more information
+		char* cTemporaryFilename = mktemp(cTemporaryFilenameTemplate);
+		
+		const int temporaryFileDescriptor = open(cTemporaryFilename, O_CREAT|O_EXCL, S_IRWXU);
+
+		NSString* temporaryFilename = [NSString stringWithUTF8String:cTemporaryFilename];
+		
+		free(cTemporaryFilenameTemplate);
+		if(cTemporaryFilename != cTemporaryFilenameTemplate) free(cTemporaryFilename);
+		
+		if(temporaryFileDescriptor >= 0)
+		{
+			close(temporaryFileDescriptor);
+			
+			return temporaryFilename;
+		}
+		else if(temporaryFileDescriptor == -1 && errno == EEXIST)
+		{
+			continue;
+		}
+		else
+		{
+			NSLog(@"open() for %@ returned %d", temporaryFilename, errno);
+			return nil;
+		}
+	}
+}
+
+- (BOOL)_submitCrashReportToApple:(NSDictionary*)report
+{
+	if(_processName == nil) return NO;
 	
 	NSString* versionString = [reportController versionStringForApplication:_processName];
-	if(versionString == nil) return;
+	if(versionString == nil) return NO;
 	
-	NSString* crashLogPath = [reportController pathToCrashLogForApplication:_processName];
-	if(crashLogPath == nil) return;
+	NSString* crashLog = [reportController anonymisedCrashLog:_processName];
+	if(crashLog == nil) return NO;
+
+	NSString* temporaryCrashLogPath = [CrashReporterAppDelegate _temporaryFilename];
+	if(temporaryCrashLogPath == nil) return NO;
 	
-#warning Check whether feedback_comments is sent if the notes is empty
+	const BOOL wroteTemporaryCrashLogSuccessfully = [crashLog writeToFile:temporaryCrashLogPath atomically:NO];
+	if(!wroteTemporaryCrashLogSuccessfully) return NO;
+	
 	NSString* notes = [report objectForKey:@"notes"] ? [report objectForKey:@"notes"] : @"";
 	
 	NSDictionary* formInformation = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -416,10 +461,12 @@
 		versionString, @"app_version",
 		[NSString stringWithFormat:@"%@:%@", [self _systemProductVersion], [self _systemProductBuildVersion]], @"os_version",
 		[NSString stringWithFormat:@"%@ (%luMB)", [self _machineModelName], [self _machinePhysicalMemoryInMegabytes]], @"machine_config",
-		[NSString stringWithFormat:@"@%@", crashLogPath], @"page_source",
+		[NSString stringWithFormat:@"<%@", temporaryCrashLogPath], @"page_source",
 		nil];
-	
+
 	NSMutableArray* curlArguments = [NSMutableArray array];
+	
+	[curlArguments addObject:@"-q"];
 
 	NSEnumerator* formInformationEnumerator = [formInformation keyEnumerator];
 	NSString* formKey = nil;
@@ -432,7 +479,21 @@
 	
 	[curlArguments addObject:@"http://radarsubmissions.apple.com/process.jsp"];
 	
-	NSLog(@"curlArguments: %@", curlArguments);
+	if(![[NSFileManager defaultManager] fileExistsAtPath:@"/usr/bin/curl"]) return NO;
+	
+	NSTask* curlTask = [[NSTask alloc] init];
+	[curlTask setLaunchPath:@"/usr/bin/curl"];
+	[curlTask setArguments:curlArguments];
+	[curlTask setStandardOutput:[NSFileHandle fileHandleWithNullDevice]];
+	[curlTask setStandardError:[NSFileHandle fileHandleWithNullDevice]];
+	
+	[curlTask launch];
+	[curlTask waitUntilExit];
+	const BOOL curlRanSucessfully = ([curlTask terminationStatus] == 0);
+	
+	[[NSFileManager defaultManager] removeFileAtPath:temporaryCrashLogPath handler:nil];
+	
+	return curlRanSucessfully;
 }
 
 - (void)_appLaunched:(NSNotification *)notification
