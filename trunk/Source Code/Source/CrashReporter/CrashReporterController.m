@@ -18,9 +18,11 @@
 
 - (void)setupLocalizedFields;
 - (void)fillOutUserCredentials;
-- (NSString*)gatherCrashLog:(NSString*)appName;
 - (NSString*)gatherConsoleLogForApplication:(NSString*)appName withProcessID:(int)processID;
 - (NSString*)currentArchitecture;
+- (NSString*)pathToCrashLogForApplication:(NSString*)appName;
+- (NSString*)rawCrashLog:(NSString*)appName;
+- (NSString*)gatherCrashLog:(NSString*)appName;
 
 @end
 
@@ -123,27 +125,6 @@
 	}
 }
 
-- (NSString*)pathToCrashLogForApplication:(NSString*)appName
-{
-	NSString* crashLogName = [NSString stringWithFormat:@"%@.crash.log", appName];
-	
-	NSArray* possibleDirectoriesForCrashLog = [NSArray arrayWithObjects:
-		[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/CrashReporter"],
-		@"/Library/Logs/CrashReporter",
-		nil];
-	
-	NSEnumerator* e = [possibleDirectoriesForCrashLog objectEnumerator];
-	NSString* directoryToSearchForCrashLog = nil;
-	while(directoryToSearchForCrashLog = [e nextObject])
-	{
-		NSString* possibleCrashLogLocation = [directoryToSearchForCrashLog stringByAppendingPathComponent:crashLogName];
-		
-		if([[NSFileManager defaultManager] fileExistsAtPath:possibleCrashLogLocation]) return possibleCrashLogLocation;
-	}
-	
-	return nil;
-}
-
 - (NSString*)versionStringForApplication:(NSString*)appName
 {
 	NSString* crashLog = [self gatherCrashLog:appName];
@@ -165,6 +146,20 @@
 													   indexOfVersionFieldValueEndOfLine-indexOfVersionFieldValueStart);
 	
 	return [crashLog substringWithRange:versionFieldValueRange];
+}
+
+- (NSString*)anonymisedCrashLog:(NSString*)appName
+{
+	// Strip out the Host Name from the crash log
+	NSString* crashLog = [self rawCrashLog:appName];
+	
+	const NSRange logInsertPoint = [crashLog rangeOfString:@"Date/Time:"];
+	if((logInsertPoint.length != 0) && (logInsertPoint.location != NSNotFound))
+	{
+		crashLog = [crashLog substringFromIndex:logInsertPoint.location];
+	}
+	
+	return [[crashLog stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] stringByAppendingString:@"\n"];
 }
 
 @end
@@ -230,51 +225,25 @@
 	}
 }
 
-- (NSString*)gatherCrashLog:(NSString*)appName
+- (NSString*)pathToCrashLogForApplication:(NSString*)appName
 {
-	NSString* crashLogPath = [self pathToCrashLogForApplication:appName];
-	if(!crashLogPath)
-	{
-		NSLog(@"Could not find crashlog for %@", appName);
-		return NSLocalizedString(@"Could not locate crash report.", @"Missing crash report");
-	}
+	NSString* crashLogName = [NSString stringWithFormat:@"%@.crash.log", appName];
 	
-	NSString* crashLog = [NSString stringWithContentsOfFile:crashLogPath];
-	if(!crashLog)
-	{
-		NSLog(@"Could not load crashlog: %@", crashLogPath);
-		return nil;
-	}
+	NSArray* possibleDirectoriesForCrashLog = [NSArray arrayWithObjects:
+		[NSHomeDirectory() stringByAppendingPathComponent:@"Library/Logs/CrashReporter"],
+		@"/Library/Logs/CrashReporter",
+		nil];
 	
-	NSRange delimRng;
-	
-	delimRng = [crashLog rangeOfString:@"**********" options:NSBackwardsSearch];
-	if((delimRng.length != 0) && (delimRng.location != NSNotFound))
+	NSEnumerator* e = [possibleDirectoriesForCrashLog objectEnumerator];
+	NSString* directoryToSearchForCrashLog = nil;
+	while(directoryToSearchForCrashLog = [e nextObject])
 	{
-		NSRange logRange;
+		NSString* possibleCrashLogLocation = [directoryToSearchForCrashLog stringByAppendingPathComponent:crashLogName];
 		
-		// Crash log contains more logs - only need the last one
-		logRange.location = delimRng.location + delimRng.length;
-		logRange.length = [crashLog length] - logRange.location;
-		crashLog = [crashLog substringWithRange:logRange];
-		
-		// Insert a line to make it easier to match stripped universal binary versions with the unstripped version
-		if(crashLog)
-		{
-			NSRange		logInsertPoint;
-			
-			logInsertPoint = [crashLog rangeOfString:@"Date/Time:"];
-			if((logInsertPoint.length != 0) && (logInsertPoint.location != NSNotFound))
-			{
-				crashLog = [NSString stringWithFormat:@"%@Architecture:   %@\n%@",
-					[crashLog substringToIndex:logInsertPoint.location],
-					[self currentArchitecture],
-					[crashLog substringFromIndex:logInsertPoint.location]];
-			}
-		}
+		if([[NSFileManager defaultManager] fileExistsAtPath:possibleCrashLogLocation]) return possibleCrashLogLocation;
 	}
 	
-	return crashLog;
+	return nil;
 }
 
 - (NSString*)gatherConsoleLogForApplication:(NSString*)appName withProcessID:(int)processID
@@ -338,6 +307,60 @@
 	}
 	
 	return @"unknown";
+}
+
+- (NSString*)rawCrashLog:(NSString*)appName
+{
+	static NSString* cachedCrashLog = nil;
+	
+	if(cachedCrashLog) return cachedCrashLog;
+	
+	NSString* crashLogPath = [self pathToCrashLogForApplication:appName];
+	if(!crashLogPath)
+	{
+		NSLog(@"Could not find crashlog for %@", appName);
+		return NSLocalizedString(@"Could not locate crash report.", @"Missing crash report");
+	}
+	
+	NSString* crashLog = [NSString stringWithContentsOfFile:crashLogPath];
+	if(!crashLog)
+	{
+		NSLog(@"Could not load crashlog: %@", crashLogPath);
+		return nil;
+	}
+	
+	const NSRange delimRng = [crashLog rangeOfString:@"**********" options:NSBackwardsSearch];
+	if(delimRng.location == NSNotFound && delimRng.length == 0)
+	{
+		// Crash log only contains one entry, which should be the correct one
+		return crashLog;
+	}
+	
+	// Crash log contains more logs - only need the last one
+	NSRange logRange;
+	logRange.location = delimRng.location + delimRng.length;
+	logRange.length = [crashLog length] - logRange.location;
+	
+	cachedCrashLog = [[crashLog substringWithRange:logRange] retain];
+	
+	return cachedCrashLog;
+}
+
+- (NSString*)gatherCrashLog:(NSString*)appName
+{
+	// Insert a line to make it easier to match stripped universal binary versions with the unstripped version
+	NSString* crashLog = [self rawCrashLog:appName];
+	const NSRange logInsertPoint = [crashLog rangeOfString:@"Date/Time:"];
+	
+	if((logInsertPoint.length != 0) && (logInsertPoint.location != NSNotFound))
+	{
+		crashLog = [NSString stringWithFormat:@"%@Architecture:   %@\n%@",
+			[crashLog substringToIndex:logInsertPoint.location],
+			[self currentArchitecture],
+			[crashLog substringFromIndex:logInsertPoint.location]];
+	}
+	
+	return [[crashLog stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] stringByAppendingString:@"\n"];
 }
 
 @end

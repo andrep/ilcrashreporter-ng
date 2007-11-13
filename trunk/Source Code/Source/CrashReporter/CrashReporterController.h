@@ -35,7 +35,7 @@
 
 - (void)setDelegate:(id)delegate;
 
-- (NSString*)pathToCrashLogForApplication:(NSString*)appName;
+- (NSString*)anonymisedCrashLog:(NSString*)appName;
 - (NSString*)versionStringForApplication:(NSString*)appName;
 
 @end
