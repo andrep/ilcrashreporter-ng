@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #0000ff;}a:visited:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:active {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}a:hover {text-decoration: underline; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: small; color: #ff6600;}h4 {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: tiny; font-weight: bold;}body {text-decoration: none; font-family: lucida grande, geneva, helvetica, arial, sans-serif; font-size: 10pt;}--></style><head>
+    <title>Methods</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Methods</font></h1><br>
+<a name="HeaderDoc_methods"></a>
+<dl>
+<dt><tt><a href="Methods.html#//apple_ref/occ/clm/ILCrashReporter/defaultReporter" target="doc">defaultReporter</a></tt></dt>
+<dd>Default ILCrashReporter object
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58" target="doc">launchReporterForCompany:reportAddr:</a></tt></dt>
+<dd>Launch the crash reporter task
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58fromAddr%58" target="doc">launchReporterForCompany:reportAddr:fromAddr:</a></tt></dt>
+<dd>Launch the crash reporter task
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58fromAddr%58smtpServer%58smtpPort%58" target="doc">launchReporterForCompany:reportAddr:fromAddr:smtpServer:smtpPort:</a></tt></dt>
+<dd>Launch the crash reporter task
+</dd>
+<dt><tt><a href="Methods.html#//apple_ref/occ/instm/ILCrashReporter/terminate" target="doc">terminate</a></tt></dt>
+<dd>Terminate the crash reported task
+</dd>
+</dl>
+<hr><!-- headerDoc=clm; uid=//apple_ref/occ/clm/ILCrashReporter/defaultReporter; name=ILCrashReporter::defaultReporter -->
+<a name="//apple_ref/occ/clm/ILCrashReporter/defaultReporter"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="defaultReporter">defaultReporter</a></h2>
+</td></tr></table><dl>Default ILCrashReporter object
+
+</dl><blockquote><pre>+ ( ILCrashReporter *) defaultReporter;
+</pre></blockquote>
+<p>Returns the default ILCrashReporter object. You invoke all ILCrashReporter instance methods with this object as the receiver.
+</p>
+<dl><dt><i>method result</i></dt><dd>Returns the default ILCrashReporter object or nil on failure
+</dd>
+</dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58; name=ILCrashReporter::launchReporterForCompany:reportAddr: -->
+<a name="//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="launchReporterForCompany%58reportAddr%58">launchReporterForCompany:reportAddr:</a></h2>
+</td></tr></table><dl>Launch the crash reporter task
+
+</dl><blockquote><pre>- ( void ) launchReporterForCompany:
+        (NSString *) company reportAddr:
+        (NSString *) reportAddr;
+</pre></blockquote>
+<p>Launch the crash reporter task by calling <a href="Methods.html#//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58fromAddr%58" target="doc">launchReporterForCompany:reportAddr:fromAddr:</a> with <i>fromAddr</i> set to <i>reportAddr</i>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>company</em></tt></dt><dd>The name of the company to send the report to. This parameter is used for displaying the company name to the user if the application terminates unexpectedly.</dd>
+<dt><tt><em>reportAddr</em></tt></dt><dd>The email address to send the report to. This parameter is used internally by the crash reporter and must contain the email address without enclosing brackets (&lt; or &gt;)</dd>
+</dl>
+</blockquote>
+<dl></dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58fromAddr%58; name=ILCrashReporter::launchReporterForCompany:reportAddr:fromAddr: -->
+<a name="//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58fromAddr%58"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="launchReporterForCompany%58reportAddr%58fromAddr%58">launchReporterForCompany:reportAddr:fromAddr:</a></h2>
+</td></tr></table><dl>Launch the crash reporter task
+
+</dl><blockquote><pre>- ( void ) launchReporterForCompany:
+        (NSString *) company reportAddr:
+        (NSString *) reportAddr fromAddr:
+        (NSString *) fromAddr;
+</pre></blockquote>
+<p>Launch the crash reporter task by calling <a href="Methods.html#//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58fromAddr%58smtpServer%58smtpPort%58" target="doc">launchReporterForCompany:reportAddr:fromAddr:smtpServer:smtpPort:</a> with <i>smtpServer</i> set to NULL and <i>smtpPort</i> set to 0
+	 </p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>company</em></tt></dt><dd>The name of the company to send the report to. This parameter is used for displaying the company name to the user if the application terminates unexpectedly.</dd>
+<dt><tt><em>reportAddr</em></tt></dt><dd>The email address to send the report to. This parameter is used internally by the crash reporter and must contain the email address without enclosing brackets (&lt; or &gt;)</dd>
+<dt><tt><em>fromAddr</em></tt></dt><dd>The email address to use as the from address. This parameter is used internally by the crash reporter and must contain the email address without enclosing brackets (&lt; or &gt;)</dd>
+</dl>
+</blockquote>
+<dl></dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58fromAddr%58smtpServer%58smtpPort%58; name=ILCrashReporter::launchReporterForCompany:reportAddr:fromAddr:smtpServer:smtpPort: -->
+<a name="//apple_ref/occ/instm/ILCrashReporter/launchReporterForCompany%58reportAddr%58fromAddr%58smtpServer%58smtpPort%58"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="launchReporterForCompany%58reportAddr%58fromAddr%58smtpServer%58smtpPort%58">launchReporterForCompany:reportAddr:fromAddr:smtpServer:smtpPort:</a></h2>
+</td></tr></table><dl>Launch the crash reporter task
+
+</dl><blockquote><pre>- ( void ) launchReporterForCompany:
+        (NSString *) company reportAddr:
+        (NSString *) reportAddr fromAddr:
+        (NSString *) fromAddr smtpServer:
+        (NSString *) smtpServer smtpPort:
+        (int ) smtpPort;
+</pre></blockquote>
+<p>This method will launch the crash reporter task in the background. The crash reporter will monitor the execution of the application that launched it and generate a crash report if it should unexpectedly terminate.
+	 </p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>company</em></tt></dt><dd>The name of the company to send the report to. This parameter is used for displaying the company name to the user if the application terminates unexpectedly.</dd>
+<dt><tt><em>reportAddr</em></tt></dt><dd>The email address to send the report to. This parameter is used internally by the crash reporter and must contain the email address without enclosing brackets (&lt; or &gt;)</dd>
+<dt><tt><em>fromAddr</em></tt></dt><dd>The email address to use as the from address. This parameter is used internally by the crash reporter and must contain the email address without enclosing brackets (&lt; or &gt;)</dd>
+<dt><tt><em>smtpServer</em></tt></dt><dd>The smtp server to send the crash report through. If you specify NULL for this parameter the default mail exchanger (MX server) for the recipient will automatically be looked up in the DNS system. Normally you would not need to specify a server.</dd>
+<dt><tt><em>smtpPort</em></tt></dt><dd>The port to use when connecting to the server. This parameter will be ignored if <i>smtpServer</i> is not specified. Specify 0 to use the default smtp port.</dd>
+</dl>
+</blockquote>
+<dl></dl>
+<hr><!-- headerDoc=instm; uid=//apple_ref/occ/instm/ILCrashReporter/terminate; name=ILCrashReporter::terminate -->
+<a name="//apple_ref/occ/instm/ILCrashReporter/terminate"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="terminate">terminate</a></h2>
+</td></tr></table><dl>Terminate the crash reported task
+
+</dl><blockquote><pre>- ( void ) terminate;
+</pre></blockquote>
+<p>This method will terminate the crash reporter task. You would normally not need to call this method since the crash reporter will automatically terminate when the host application quits normally.
+</p>
+<dl></dl>
+<p>(Last Updated 4/6/2005)
+</p></body></html>
