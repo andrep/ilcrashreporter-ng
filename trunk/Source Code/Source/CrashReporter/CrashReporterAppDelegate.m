@@ -135,12 +135,16 @@
 		[fw release];
 		
 		_shouldQuit = YES;
+		
+		[NSApp terminate:nil];
 	}
 }
 
 - (void)userDidCancelCrashReport
 {
 	_shouldQuit = YES;
+	
+	[NSApp terminate:nil];
 }
 
 @end
