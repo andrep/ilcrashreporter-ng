@@ -282,9 +282,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A0728F308551A2000BC12AD /* Build configuration list for PBXNativeTarget "CrashReporter" */;
 			buildPhases = (
+				6AF6C41506B18B4800C4D0C9 /* Sources */,
 				6AF6C41306B18B4800C4D0C9 /* Headers */,
 				6AF6C41406B18B4800C4D0C9 /* Resources */,
-				6AF6C41506B18B4800C4D0C9 /* Sources */,
 				6AF6C41606B18B4800C4D0C9 /* Frameworks */,
 			);
 			buildRules = (
@@ -300,9 +300,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A0728F808551A2000BC12AD /* Build configuration list for PBXNativeTarget "ILCrashReporter" */;
 			buildPhases = (
+				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF500486A6940098B216 /* Headers */,
 				8DC2EF520486A6940098B216 /* Resources */,
-				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
 				8DC2EF580486A6940098B216 /* Rez */,
 				6AF6C44506B1AFC400C4D0C9 /* CopyFiles */,
@@ -670,8 +670,10 @@
 					ppc,
 					i386,
 				);
+				CURRENT_PROJECT_VERSION = 1.2.4a1;
 				GCC_VERSION_i386 = 4.0;
 				GCC_VERSION_ppc = 3.3;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -684,8 +686,10 @@
 					ppc,
 					i386,
 				);
+				CURRENT_PROJECT_VERSION = 1.2.4a1;
 				GCC_VERSION_i386 = 4.0;
 				GCC_VERSION_ppc = 3.3;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -698,8 +702,10 @@
 					ppc,
 					i386,
 				);
+				CURRENT_PROJECT_VERSION = 1.2.4a1;
 				GCC_VERSION_i386 = 4.0;
 				GCC_VERSION_ppc = 3.3;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
