@@ -227,6 +227,8 @@
 
 - (NSString*)pathToCrashLogForApplication:(NSString*)appName
 {
+	NSFileManager* fileManager = [NSFileManager defaultManager];
+	
 	NSString* crashLogName = [NSString stringWithFormat:@"%@.crash.log", appName];
 	
 	NSArray* possibleDirectoriesForCrashLog = [NSArray arrayWithObjects:
@@ -234,13 +236,38 @@
 		@"/Library/Logs/CrashReporter",
 		nil];
 	
-	NSEnumerator* e = [possibleDirectoriesForCrashLog objectEnumerator];
+	NSEnumerator* directoryEnumerator = [possibleDirectoriesForCrashLog objectEnumerator];
 	NSString* directoryToSearchForCrashLog = nil;
-	while(directoryToSearchForCrashLog = [e nextObject])
+	while(directoryToSearchForCrashLog = [directoryEnumerator nextObject])
 	{
-		NSString* possibleCrashLogLocation = [directoryToSearchForCrashLog stringByAppendingPathComponent:crashLogName];
+		// Search for Mac OS X 10.5 (Leopard) crash logs
 		
-		if([[NSFileManager defaultManager] fileExistsAtPath:possibleCrashLogLocation]) return possibleCrashLogLocation;
+		NSString* leopardCrashLogLocation = nil;
+		
+		NSDate* latestCrashLogModificationDate = [NSDate distantPast];
+		
+		NSEnumerator* filesEnumerator = [[fileManager directoryContentsAtPath:directoryToSearchForCrashLog] objectEnumerator];
+		NSString* filename = nil;
+		while(filename = [filesEnumerator nextObject])
+		{
+			if(![filename hasPrefix:appName]) continue;
+			
+			NSString* fullPathFilename = [directoryToSearchForCrashLog stringByAppendingPathComponent:filename];
+			NSDate* fileModificationDate = [[fileManager fileAttributesAtPath:fullPathFilename traverseLink:NO] objectForKey:NSFileModificationDate];
+			if([latestCrashLogModificationDate compare:fileModificationDate] == NSOrderedAscending)
+			{
+				leopardCrashLogLocation = fullPathFilename;
+				latestCrashLogModificationDate = fileModificationDate;
+			}
+		}
+		
+		if(leopardCrashLogLocation) return leopardCrashLogLocation;
+		
+		// Search for Mac OS X 10.0-10.4 (Cheetah to Tiger) crash logs
+
+		NSString* tigerCrashLogLocation = [directoryToSearchForCrashLog stringByAppendingPathComponent:crashLogName];
+		
+		if([fileManager fileExistsAtPath:tigerCrashLogLocation]) return tigerCrashLogLocation;
 	}
 	
 	return nil;
