@@ -130,7 +130,7 @@
 	NSString* crashLog = [self gatherCrashLog:appName];
 	if(crashLog == nil) return nil;
 	
-	const NSRange rangeForVersionField = [crashLog rangeOfString:@"\n\nVersion: "];
+	const NSRange rangeForVersionField = [crashLog rangeOfString:@"\nVersion: "];
 	if(rangeForVersionField.location == NSNotFound) return nil;
 	
 	const unsigned indexOfVersionFieldValueStart = NSMaxRange(rangeForVersionField);
