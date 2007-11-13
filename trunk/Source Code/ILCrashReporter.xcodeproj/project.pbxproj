@@ -30,47 +30,6 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		014CEA440018CDF011CA2923 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = NO;
-			};
-			name = Development;
-		};
-		014CEA450018CDF011CA2923 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-		6A6AF564073D354900857373 /* Development 10.2 */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"MAC_OS_X_VERSION_MAX_ALLOWED=1020",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
-			};
-			name = "Development 10.2";
-		};
-/* End PBXBuildStyle section */
-
 /* Begin PBXContainerItemProxy section */
 		6AF6C46406B1B87A00C4D0C9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -357,63 +316,11 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Source/Framework/ILCrashReporter_Prefix.pch;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				INFOPLIST_FILE = "Source/CrashReporter/CrashReporter-Info.plist";
-				INSTALL_PATH = "$(USER_APPS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				OTHER_REZFLAGS = "";
-				PRODUCT_NAME = CrashReporter;
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = "-Wmost";
-			};
 			dependencies = (
 			);
 			name = CrashReporter;
 			productName = CrashReporter;
 			productReference = 6AF6C41806B18B4800C4D0C9 /* CrashReporter.app */;
-			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleExecutable</key>
-	<string>CrashReporter</string>
-	<key>CFBundleGetInfoString</key>
-	<string></string>
-	<key>CFBundleIconFile</key>
-	<string></string>
-	<key>CFBundleIdentifier</key>
-	<string>com.MySoftwareCompany.CrashReporter</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string></string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>1.0.0d1</string>
-	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
-	<key>NSPrincipalClass</key>
-	<string>NSApplication</string>
-</dict>
-</plist>
-";
 			productType = "com.apple.product-type.application";
 		};
 		8DC2EF4F0486A6940098B216 /* ILCrashReporter */ = {
@@ -431,38 +338,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "";
-				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Source/Framework/ILCrashReporter_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "";
-				INFOPLIST_FILE = Source/Framework/Resources/Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "";
-				LIBRARY_STYLE = Dynamic;
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xEBF80000,
-				);
-				PRODUCT_NAME = ILCrashReporter;
-				SECTORDER_FLAGS = "";
-				SKIP_INSTALL = YES;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = framework;
-			};
 			dependencies = (
 				6AF6C46506B1B87A00C4D0C9 /* PBXTargetDependency */,
 			);
@@ -478,13 +353,6 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 6A0728FD08551A2000BC12AD /* Build configuration list for PBXProject "ILCrashReporter" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				014CEA440018CDF011CA2923 /* Development */,
-				014CEA450018CDF011CA2923 /* Deployment */,
-				6A6AF564073D354900857373 /* Development 10.2 */,
-			);
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -637,7 +505,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		6A0728F408551A2000BC12AD /* Development */ = {
+		6A0728F408551A2000BC12AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A07290C08551BCB00BC12AD /* Deployment.xcconfig */;
 			buildSettings = {
@@ -669,9 +537,9 @@
 				WARNING_CFLAGS = "-Wmost";
 				ZERO_LINK = NO;
 			};
-			name = Development;
+			name = Debug;
 		};
-		6A0728F508551A2000BC12AD /* Deployment */ = {
+		6A0728F508551A2000BC12AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A07290C08551BCB00BC12AD /* Deployment.xcconfig */;
 			buildSettings = {
@@ -697,7 +565,7 @@
 				WARNING_CFLAGS = "-Wmost";
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
 		6A0728F608551A2000BC12AD /* Development 10.2 */ = {
 			isa = XCBuildConfiguration;
@@ -752,7 +620,7 @@
 			};
 			name = Default;
 		};
-		6A0728F908551A2000BC12AD /* Development */ = {
+		6A0728F908551A2000BC12AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A07290408551AF000BC12AD /* Development.xcconfig */;
 			buildSettings = {
@@ -788,9 +656,9 @@
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
 			};
-			name = Development;
+			name = Debug;
 		};
-		6A0728FA08551A2000BC12AD /* Deployment */ = {
+		6A0728FA08551A2000BC12AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A07290C08551BCB00BC12AD /* Deployment.xcconfig */;
 			buildSettings = {
@@ -827,7 +695,7 @@
 				);
 				WRAPPER_EXTENSION = framework;
 			};
-			name = Deployment;
+			name = Release;
 		};
 		6A0728FB08551A2000BC12AD /* Development 10.2 */ = {
 			isa = XCBuildConfiguration;
@@ -906,7 +774,7 @@
 			};
 			name = Default;
 		};
-		6A0728FE08551A2000BC12AD /* Development */ = {
+		6A0728FE08551A2000BC12AD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -918,9 +786,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Development;
+			name = Debug;
 		};
-		6A0728FF08551A2000BC12AD /* Deployment */ = {
+		6A0728FF08551A2000BC12AD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -932,7 +800,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Deployment;
+			name = Release;
 		};
 		6A07290008551A2000BC12AD /* Development 10.2 */ = {
 			isa = XCBuildConfiguration;
@@ -968,8 +836,8 @@
 		6A0728F308551A2000BC12AD /* Build configuration list for PBXNativeTarget "CrashReporter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A0728F408551A2000BC12AD /* Development */,
-				6A0728F508551A2000BC12AD /* Deployment */,
+				6A0728F408551A2000BC12AD /* Debug */,
+				6A0728F508551A2000BC12AD /* Release */,
 				6A0728F608551A2000BC12AD /* Development 10.2 */,
 				6A0728F708551A2000BC12AD /* Default */,
 			);
@@ -979,8 +847,8 @@
 		6A0728F808551A2000BC12AD /* Build configuration list for PBXNativeTarget "ILCrashReporter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A0728F908551A2000BC12AD /* Development */,
-				6A0728FA08551A2000BC12AD /* Deployment */,
+				6A0728F908551A2000BC12AD /* Debug */,
+				6A0728FA08551A2000BC12AD /* Release */,
 				6A0728FB08551A2000BC12AD /* Development 10.2 */,
 				6A0728FC08551A2000BC12AD /* Default */,
 			);
@@ -990,8 +858,8 @@
 		6A0728FD08551A2000BC12AD /* Build configuration list for PBXProject "ILCrashReporter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6A0728FE08551A2000BC12AD /* Development */,
-				6A0728FF08551A2000BC12AD /* Deployment */,
+				6A0728FE08551A2000BC12AD /* Debug */,
+				6A0728FF08551A2000BC12AD /* Release */,
 				6A07290008551A2000BC12AD /* Development 10.2 */,
 				6A07290108551A2000BC12AD /* Default */,
 			);
