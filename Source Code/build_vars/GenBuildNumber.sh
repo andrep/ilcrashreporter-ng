@@ -19,7 +19,7 @@ VERS_FILE="build_vars/version_number"
 if [ "${BUILD_STYLE}" == "Development" ] ; then
         VAR_FILE="build_vars/build_number.$USER"
 else
-        ocvs update $VAR_FILE
+        cvs update $VAR_FILE
 fi
 
 #
@@ -36,7 +36,7 @@ fi
 if [ "${BUILD_STYLE}" == "Development" ] ; then
         echo "D"`cat $VAR_FILE` > build_number.temp
 else
-        ocvs commit -F $VAR_FILE -f $VAR_FILE
+        cvs commit -F $VAR_FILE -f $VAR_FILE
         cp $VAR_FILE build_number.temp
 fi
 
