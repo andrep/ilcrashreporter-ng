@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,7 @@
 		6AF6C44F06B1B01500C4D0C9 /* CrashReporter.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6AF6C41806B18B4800C4D0C9 /* CrashReporter.app */; };
 		6AF6C48006B1BD5A00C4D0C9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AF6C47F06B1BD5A00C4D0C9 /* main.m */; };
 		7B3CE9550CE9AFDD00B6F0BA /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B3CE9540CE9AFDD00B6F0BA /* AddressBook.framework */; };
+		7B68DF970CEAA30100D5FE7A /* asl-weak.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B68DF960CEAA30100D5FE7A /* asl-weak.h */; };
 		7B7D6E340CE9941000B0DD52 /* RMObjectPath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D6E320CE9941000B0DD52 /* RMObjectPath.mm */; };
 		7B7D6E380CE9943100B0DD52 /* SystemProfileReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7D6E2E0CE9935800B0DD52 /* SystemProfileReporter.m */; };
 		8DC2EF510486A6940098B216 /* ILCrashReporter_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* ILCrashReporter_Prefix.pch */; };
@@ -84,6 +85,7 @@
 		6AF6C45106B1B38700C4D0C9 /* LinkComponents.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = LinkComponents.sh; sourceTree = "<group>"; };
 		6AF6C47F06B1BD5A00C4D0C9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7B3CE9540CE9AFDD00B6F0BA /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
+		7B68DF960CEAA30100D5FE7A /* asl-weak.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "asl-weak.h"; sourceTree = "<group>"; };
 		7B7D6E2D0CE9935800B0DD52 /* SystemProfileReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemProfileReporter.h; sourceTree = "<group>"; };
 		7B7D6E2E0CE9935800B0DD52 /* SystemProfileReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SystemProfileReporter.m; sourceTree = "<group>"; };
 		7B7D6E310CE9941000B0DD52 /* RMObjectPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMObjectPath.h; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 		6AF6C41C06B18B7700C4D0C9 /* CrashReporter */ = {
 			isa = PBXGroup;
 			children = (
+				7B68DF960CEAA30100D5FE7A /* asl-weak.h */,
 				6AF6C41D06B18B7700C4D0C9 /* CrashReporter-Info.plist */,
 				6AF6C41E06B18B7700C4D0C9 /* CrashReporterAppDelegate.h */,
 				6AF6C41F06B18B7700C4D0C9 /* CrashReporterAppDelegate.m */,
@@ -225,6 +228,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B68DF970CEAA30100D5FE7A /* asl-weak.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,6 +425,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A07290C08551BCB00BC12AD /* Deployment.xcconfig */;
 			buildSettings = {
+				ADDITIONAL_SDKS = "MacOSX10.5-CrashReporterSupport.sdk";
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -437,10 +442,11 @@
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
+					"-weak_reference_mismatches",
+					error,
+					"-F/System/Library/PrivateFrameworks",
+					"-weak_framework",
+					CrashReporterSupport,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = CrashReporter;
@@ -455,6 +461,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6A07290C08551BCB00BC12AD /* Deployment.xcconfig */;
 			buildSettings = {
+				ADDITIONAL_SDKS = "MacOSX10.5-CrashReporterSupport.sdk";
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -465,10 +472,11 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
+					"-weak_reference_mismatches",
+					error,
+					"-F/System/Library/PrivateFrameworks",
+					"-weak_framework",
+					CrashReporterSupport,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = CrashReporter;
@@ -482,6 +490,7 @@
 		6A0728F608551A2000BC12AD /* Development 10.2 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ADDITIONAL_SDKS = "MacOSX10.5-CrashReporterSupport.sdk";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Source/Framework/ILCrashReporter_Prefix.pch;
@@ -495,10 +504,11 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
+					"-weak_reference_mismatches",
+					error,
+					"-F/System/Library/PrivateFrameworks",
+					"-weak_framework",
+					CrashReporterSupport,
 				);
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = CrashReporter;
@@ -639,7 +649,7 @@
 				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 			};
 			name = Debug;
 		};
@@ -655,7 +665,7 @@
 				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 			};
 			name = Release;
 		};
@@ -671,7 +681,7 @@
 				GCC_VERSION_ppc = 3.3;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 			};
 			name = "Development 10.2";
 		};
