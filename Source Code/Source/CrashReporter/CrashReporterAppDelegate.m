@@ -56,9 +56,7 @@
 {
 	if(report)
 	{
-		const BOOL submittedToAppleSuccessfully = [self _submitCrashReportToApple:report];
-		if(submittedToAppleSuccessfully) NSLog(@"Succesfully sent crash report for %@ to Apple", _processName);
-		else NSLog(@"Couldn't submit crash report for %@ to Apple", _processName);
+		[self _submitCrashReportToApple:report];
 		
 		//NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults]; 
 		//NSString* smtpFromAddress = [defaults stringForKey:PMXSMTPFromAddress]; 
@@ -447,7 +445,7 @@
 	}
 }
 
-- (BOOL)_submitCrashReportToApple:(NSDictionary*)report
+- (BOOL)_submitCrashReportToAppleForMacOSX104AndBelow:(NSDictionary*)report
 {
 	if(_processName == nil)
 	{
@@ -550,7 +548,86 @@
 	
 	[[NSFileManager defaultManager] removeFileAtPath:temporaryCrashLogPath handler:nil];
 	
+	if(curlRanSucessfully) NSLog(@"Successfully submitted crash report to Apple via radarsubmissions.apple.com");
+	
 	return curlRanSucessfully;
+}
+
+//int CRDisplayProblemReport(NSDictionary* problemReportDictionary) WEAK_IMPORT_ATTRIBUTE;
+extern int CRSubmitProblemReport(NSDictionary* problemReportDictionary) WEAK_IMPORT_ATTRIBUTE;
+
+extern const NSString *kCRProblemTypeCrash WEAK_IMPORT_ATTRIBUTE;
+extern const NSString *kCRProblemReportAppNameKey WEAK_IMPORT_ATTRIBUTE;
+extern const NSString *kCRProblemReportProblemTypeKey WEAK_IMPORT_ATTRIBUTE;
+extern const NSString *kCRProblemReportDescriptionKey WEAK_IMPORT_ATTRIBUTE;
+extern const NSString *kCRProblemReportAppVersionKey WEAK_IMPORT_ATTRIBUTE;
+extern const NSString *kCRProblemReportCommentsKey WEAK_IMPORT_ATTRIBUTE;
+
+- (BOOL)_submitCrashReportToAppleForMacOSX105AndAbove:(NSDictionary*)report
+{
+	if(CRSubmitProblemReport == NULL
+	   || kCRProblemTypeCrash == NULL
+	   || kCRProblemReportAppNameKey == NULL
+	   || kCRProblemReportProblemTypeKey == NULL
+	   || kCRProblemReportDescriptionKey == NULL
+	   || kCRProblemReportAppVersionKey == NULL
+	   || kCRProblemReportCommentsKey == NULL)
+	{
+		return NO;
+	}
+	
+	// Bleh, the next few lines of code are the same in our cousin method,
+	// _submitCrashReportToAppleForMacOSX104AndBelow... should really merge
+	// them.
+	if(_processName == nil)
+	{
+		NSLog(@"Couldn't determine process name");
+		return NO;
+	}
+	
+	NSString* versionString = [reportController versionStringForApplication:_processName];
+	if(versionString == nil)
+	{
+		NSLog(@"Couldn't determine application version");
+		return NO;
+	}
+	
+	NSString* crashLog = [reportController anonymisedCrashLog:_processName];
+	if(crashLog == nil)
+	{
+		NSLog(@"Couldn't locate crash log for %@", _processName);
+		return NO;
+	}
+	
+	NSString* notes = [report objectForKey:@"notes"] ? [report objectForKey:@"notes"] : @"";
+	
+    NSDictionary *problemReportDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+											 _processName, kCRProblemReportAppNameKey,
+											 notes, kCRProblemReportCommentsKey,
+											 kCRProblemTypeCrash, kCRProblemReportProblemTypeKey,
+											 crashLog, kCRProblemReportDescriptionKey,
+											 versionString, kCRProblemReportAppVersionKey,
+											 nil];
+	
+    const int submitProblemReportReturnCode = CRSubmitProblemReport(problemReportDictionary);
+	if(submitProblemReportReturnCode == 0)
+	{
+		NSLog(@"Successfully submitted crash report to Apple via CrashReporterSupport framework");
+		
+		return YES;
+	}
+	else
+	{
+		NSLog(@"Couldn't submit crash report to Apple via CrashReporterSupport framework: CRSubmitProblemReport() returned %d", submitProblemReportReturnCode);
+		
+		return NO;
+	}
+}
+
+- (BOOL)_submitCrashReportToApple:(NSDictionary*)report
+{
+	if([self _submitCrashReportToAppleForMacOSX105AndAbove:report]) return YES;
+	else return [self _submitCrashReportToAppleForMacOSX104AndBelow:report];
 }
 
 - (void)_appLaunched:(NSNotification *)notification
