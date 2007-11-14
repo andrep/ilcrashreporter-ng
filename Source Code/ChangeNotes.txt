@@ -3,6 +3,7 @@
 - This release is a fork of ILCrashReporter, creatively named ILCrashReporter-NG ("Next Generation").  The new homepage is at <http://code.google.com/p/ilcrashreporter-ng/>.
 - Shouldn't leave zombie processes around anymore.
 - Submits crash reports to Apple.
+- Finds crash logs and console logs correctly on Mac OS X 10.5 (Leopard).
 
 1.2.3 (v46)
 - Crash reports now contain the machine architecture to help matching stack crawls from universal binaries
