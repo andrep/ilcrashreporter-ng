@@ -285,7 +285,6 @@
 	   || aslresponse_next == NULL || asl_get == NULL
 	   || aslresponse_free == NULL)
 	{
-		NSLog(@"asl_new et al. don't exist: returning early...");
 		return nil;
 	}
 	
