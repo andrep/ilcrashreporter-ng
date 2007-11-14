@@ -6,6 +6,8 @@
 //  Copyright 2004 Infinite Loop. All rights reserved.
 //
 
+#include "asl-weak.h"
+
 #import <fcntl.h>
 #import <sys/types.h>
 #import <sys/stat.h>
@@ -273,25 +275,82 @@
 	return nil;
 }
 
+- (NSString*)_gatherConsoleLogViaAppleSystemLogger:(NSString*)applicationName fromDate:(NSDate*)date
+{
+	// asl_* functions only exist on Mac OS X 10.4 (Tiger) onward, so bail out
+	// early if the functions don't exist.  (See the #include'd "asl-weak.h"
+	// file: it's the same as /usr/include/asl.h, but all functions are
+	// defined to be weak-imported.)
+	if(asl_new == NULL || asl_set_query == NULL || asl_search == NULL
+	   || aslresponse_next == NULL || asl_get == NULL
+	   || aslresponse_free == NULL)
+	{
+		NSLog(@"asl_new et al. don't exist: returning early...");
+		return nil;
+	}
+	
+	aslmsg query = asl_new(ASL_TYPE_QUERY);
+	if(query == NULL) return nil;
+	
+	const uint32_t senderQueryOptions = ASL_QUERY_OP_EQUAL|ASL_QUERY_OP_CASEFOLD|ASL_QUERY_OP_SUBSTRING;
+	const int aslSetSenderQueryReturnCode = asl_set_query(query, ASL_KEY_SENDER, [applicationName UTF8String], senderQueryOptions);
+	if(aslSetSenderQueryReturnCode != 0) return nil;
+	
+	static const size_t timeBufferLength = 64;
+	char oneHourAgo[timeBufferLength];
+	snprintf(oneHourAgo, timeBufferLength, "%0lf", [date timeIntervalSince1970]);
+	const int aslSetTimeQueryReturnCode = asl_set_query(query, ASL_KEY_TIME, oneHourAgo, ASL_QUERY_OP_GREATER_EQUAL);
+	if(aslSetTimeQueryReturnCode != 0) return nil;
+	
+	aslresponse response = asl_search(NULL, query);
+	
+	NSMutableString* searchResults = [NSMutableString string];
+	for(;;)
+	{
+		aslmsg message = aslresponse_next(response);
+		if(message == NULL) break;
+		
+		const char* time = asl_get(message, ASL_KEY_TIME);
+		if(time == NULL) continue;
+		
+		const char* level = asl_get(message, ASL_KEY_LEVEL);
+		if(level == NULL) continue;
+		
+		const char* messageText = asl_get(message, ASL_KEY_MSG);
+		if(messageText == NULL) continue;
+		
+		NSCalendarDate* date = [NSCalendarDate dateWithTimeIntervalSince1970:atof(time)];
+		
+		[searchResults appendFormat:@"%@[%s]: %s\n", [date description], level, messageText];
+	}
+	
+	aslresponse_free(response);
+	
+	return searchResults;
+}
+
 - (NSString*)gatherConsoleLogForApplication:(NSString*)appName withProcessID:(int)processID
 {
-	NSString	*consoleLog = nil;
-	NSString	*path;
-	NSFileManager	*mgr = [NSFileManager defaultManager];
+	NSDate* oneHourAgo = [[NSCalendarDate calendarDate] dateByAddingYears:0 months:0 days:0 hours:(-1) minutes:0 seconds:0];
+	NSString* consoleLog = [self _gatherConsoleLogViaAppleSystemLogger:appName fromDate:oneHourAgo];
 	
-	path = [NSString stringWithFormat:@"/Library/Logs/Console/%d/console.log", getuid()]; //10.4
-	if(!path || ![mgr fileExistsAtPath:path])
-		path = [NSString stringWithFormat:@"/Library/Logs/Console/%@/console.log", NSUserName()]; // 10.3
-	if(!path || ![mgr fileExistsAtPath:path])
-		path = @"/var/tmp/console.log"; // 10.2
-	path = [path stringByResolvingSymlinksInPath];
-	if([mgr fileExistsAtPath:path])
+	if(consoleLog == nil)
 	{
-		consoleLog = [NSString stringWithContentsOfFile:path];
+		NSString* path = [NSString stringWithFormat:@"/Library/Logs/Console/%d/console.log", getuid()]; //10.4
 		
-		// Limit the console log to 512 KB to prevent over-stuffing the receiving email account
-		if([consoleLog length] > 512*1024)
-			consoleLog = [consoleLog substringToIndex:512*1024];
+		if(!path || ![[NSFileManager defaultManager] fileExistsAtPath:path])
+			path = [NSString stringWithFormat:@"/Library/Logs/Console/%@/console.log", NSUserName()]; // 10.3
+		if(!path || ![[NSFileManager defaultManager] fileExistsAtPath:path])
+			path = @"/var/tmp/console.log"; // 10.2
+		path = [path stringByResolvingSymlinksInPath];
+		if([[NSFileManager defaultManager] fileExistsAtPath:path])
+		{
+			consoleLog = [NSString stringWithContentsOfFile:path];
+			
+			// Limit the console log to 512 KB to prevent over-stuffing the receiving email account
+			if([consoleLog length] > 512*1024)
+				consoleLog = [consoleLog substringToIndex:512*1024];
+		}
 	}
 	
 	return consoleLog;
