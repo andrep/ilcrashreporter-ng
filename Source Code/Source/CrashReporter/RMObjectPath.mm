@@ -70,7 +70,7 @@ static NSStringPair Tokenise(NSString* string, NSCharacterSet* delimeters)
 	int index = -1;
 	const BOOL scannedNumberSuccessfully = [numberScanner scanInt:&index];
 	
-	if(scannedNumberSuccessfully && index >= 0 && index < [self count])
+	if(scannedNumberSuccessfully && index >= 0 && (unsigned)index < [self count])
 	{
 		id object = [self objectAtIndex:index];
 		
