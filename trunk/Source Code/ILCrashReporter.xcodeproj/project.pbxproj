@@ -79,7 +79,7 @@
 		6AF6C42106B18B7700C4D0C9 /* CrashReporterController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CrashReporterController.m; sourceTree = "<group>"; };
 		6AF6C42206B18B7700C4D0C9 /* CrashReporterIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CrashReporterIcon.icns; sourceTree = "<group>"; };
 		6AF6C42406B18B7700C4D0C9 /* CrashReporterMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = CrashReporterMain.nib; sourceTree = "<group>"; };
-		6AF6C42606B18B7700C4D0C9 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6AF6C42606B18B7700C4D0C9 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6AF6C42706B18B7700C4D0C9 /* GetPID.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GetPID.h; sourceTree = "<group>"; };
 		6AF6C42806B18B7700C4D0C9 /* GetPID.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GetPID.m; sourceTree = "<group>"; };
 		6AF6C45106B1B38700C4D0C9 /* LinkComponents.sh */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.sh; path = LinkComponents.sh; sourceTree = "<group>"; };
