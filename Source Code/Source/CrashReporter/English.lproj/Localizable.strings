@@ -29,7 +29,7 @@
 "Reported by: %@ <%@>\n\n%@" = "Reported by: %@ <%@>\n\n%@";
 
 /* Send to #COMPANY# button text */
-"Send to %@" = "Send to %@ and Apple";
+"Send to %@" = "Send to %@";
 
 /* Button title */
 "Submit Report..." = "Submit Report...";
