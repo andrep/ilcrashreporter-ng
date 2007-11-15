@@ -1,6 +1,7 @@
 1.2.4-NG
 
 - This release is a fork of ILCrashReporter, creatively named ILCrashReporter-NG ("Next Generation").  The new homepage is at <http://code.google.com/p/ilcrashreporter-ng/>.
+- Now requires Xcode 3 and Leopard to build, although we should still b compatible with 10.2+ when deployed.
 - Shouldn't leave zombie processes around anymore.
 - Submits crash reports to Apple.
 - Finds crash logs and console logs correctly on Mac OS X 10.5 (Leopard).
