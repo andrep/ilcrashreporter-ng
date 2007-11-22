@@ -63,7 +63,7 @@
 		32CA4F630368D1EE00C91783 /* Sample Crasher_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Sample Crasher_Prefix.pch"; sourceTree = "<group>"; };
 		6AA8E2A107183EFD00287131 /* SampleCrashApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SampleCrashApp.h; sourceTree = "<group>"; };
 		6AA8E2A207183EFD00287131 /* SampleCrashApp.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SampleCrashApp.m; sourceTree = "<group>"; };
-		7BB732A60CE97C4E00CA3A8E /* ILCrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ILCrashReporter.xcodeproj; path = "../Source Code/ILCrashReporter.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		7BB732A60CE97C4E00CA3A8E /* ILCrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ILCrashReporter.xcodeproj; path = ../src/ILCrashReporter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Sample Crasher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sample Crasher.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -253,7 +253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ln -sf ../../../\"Source Code\"/build/\"$CONFIGURATION\"/ILCrashReporter.framework \"$BUILD_DIR\"/\"$CONFIGURATION\"/\n";
+			shellScript = "ln -sf ../../../\"src\"/build/\"$CONFIGURATION\"/ILCrashReporter.framework \"$BUILD_DIR\"/\"$CONFIGURATION\"/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -301,12 +301,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"../Source Code/build/$(BUILD_STYLE)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../Source Code/build/Debug\"";
+				FRAMEWORK_SEARCH_PATHS = "../src/build/$(BUILD_STYLE)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -325,12 +320,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"../Source Code/build/$(BUILD_STYLE)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../Source Code/build/Debug\"";
+				FRAMEWORK_SEARCH_PATHS = "../src/build/$(BUILD_STYLE)";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
