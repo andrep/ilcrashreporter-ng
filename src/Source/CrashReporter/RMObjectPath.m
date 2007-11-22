@@ -25,8 +25,6 @@
 
 #import "RMObjectPath.h"
 
-#include <utility>
-
 //***************************************************************************
 
 @implementation NSArray (ObjectPathSupport)
@@ -40,13 +38,28 @@ static NSCharacterSet* DotCharacterSet()
 	return dotCharacterSet;
 }
 
-typedef std::pair<NSString*,NSString*> NSStringPair;
+typedef struct NSStringPair
+{
+	NSString* first;
+	NSString* second;
+}
+NSStringPair;
 
+static NSStringPair NSStringPairMake(NSString* string1, NSString* string2)
+{
+	NSStringPair pair;
+	
+	pair.first = string1;
+	pair.second = string2;
+	
+	return pair;
+}
+							  
 static NSStringPair Tokenise(NSString* string, NSCharacterSet* delimeters)
 {
 	const NSRange delimiterRange = [string rangeOfCharacterFromSet:delimeters];
 	
-	if(delimiterRange.location == NSNotFound) return NSStringPair(string, nil);
+	if(delimiterRange.location == NSNotFound) return NSStringPairMake(string, nil);
 	
 	NSString* firstToken = [string substringToIndex:delimiterRange.location];
 	
@@ -54,7 +67,7 @@ static NSStringPair Tokenise(NSString* string, NSCharacterSet* delimeters)
 		? [string substringFromIndex:NSMaxRange(delimiterRange)]
 		: nil;
 	
-	return NSStringPair(firstToken, restOfString);
+	return NSStringPairMake(firstToken, restOfString);
 }
 
 - (id)objectForPath:(NSString*)objectPath
