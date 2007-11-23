@@ -152,16 +152,28 @@
 
 - (NSString*)anonymisedCrashLog:(NSString*)appName
 {
-	// Strip out the Host Name from the crash log
 	NSString* crashLog = [self rawCrashLog:appName];
 	
-	const NSRange logInsertPoint = [crashLog rangeOfString:@"Date/Time:"];
-	if((logInsertPoint.length != 0) && (logInsertPoint.location != NSNotFound))
-	{
-		crashLog = [crashLog substringFromIndex:logInsertPoint.location];
-	}
+	// Mac OS X 10.5 CrashReporter generates completely anonymous crash logs
+	// already (identifiable via the "Report Version:  6" tag).
 	
-	return [[crashLog stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] stringByAppendingString:@"\n"];
+	const NSRange rangeForReportVersion6String = [crashLog rangeOfString:@"Report Version:  6"];
+	if(!NSEqualRanges(rangeForReportVersion6String, NSMakeRange(NSNotFound, 0)))
+	{
+		return crashLog;
+	}
+	else
+	{
+		// Strip out the Host Name from the crash log
+		
+		const NSRange logInsertPoint = [crashLog rangeOfString:@"Date/Time:"];
+		if((logInsertPoint.length != 0) && (logInsertPoint.location != NSNotFound))
+		{
+			crashLog = [crashLog substringFromIndex:logInsertPoint.location];
+		}
+		
+		return [[crashLog stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] stringByAppendingString:@"\n"];
+	}
 }
 
 @end
@@ -238,6 +250,8 @@
 		@"/Library/Logs/CrashReporter",
 		nil];
 	
+	NSString* appNameWithUnderscoreSuffix = [appName stringByAppendingString:@"_"];
+	
 	NSEnumerator* directoryEnumerator = [possibleDirectoriesForCrashLog objectEnumerator];
 	NSString* directoryToSearchForCrashLog = nil;
 	while(directoryToSearchForCrashLog = [directoryEnumerator nextObject])
@@ -252,7 +266,7 @@
 		NSString* filename = nil;
 		while(filename = [filesEnumerator nextObject])
 		{
-			if(![filename hasPrefix:appName]) continue;
+			if(![filename hasPrefix:appNameWithUnderscoreSuffix]) continue;
 			
 			NSString* fullPathFilename = [directoryToSearchForCrashLog stringByAppendingPathComponent:filename];
 			NSDate* fileModificationDate = [[fileManager fileAttributesAtPath:fullPathFilename traverseLink:NO] objectForKey:NSFileModificationDate];
