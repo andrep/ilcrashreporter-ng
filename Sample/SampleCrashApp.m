@@ -10,8 +10,10 @@
 	[[ILCrashReporter defaultReporter] launchReporterForCompany:@"My Company" reportAddr:@"report@my.company"];
 }
 
-- (IBAction)doCrash:(id)sender
+- (void)bam
 {
+	NSLog(@"About to crash... 3... 2... 1...");
+	
 	// Leopard installs an extra exception handler that will catch the NULL-
 	// pointer dereference below, so we need to reset it to the default OS
 	// behaviour.
@@ -19,6 +21,13 @@
 	
 	// Write to address 0 -> ka-boom!!!!
 	*(long*)0 = 0xDEADBEEF;
+}
+
+- (IBAction)doCrash:(id)sender
+{
+	// Invoke another method just to change the stack trace a bit.
+	
+	[self bam];
 }
 
 @end
