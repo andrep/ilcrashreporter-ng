@@ -347,7 +347,7 @@
 	if(pid && ([pid intValue] == _processToWatch))
 	{
 		//_processName = [[info objectForKey:@"NSApplicationName"] retain];
-		_processName = [[[[NSBundle bundleWithPath:[info objectForKey:@"NSApplicationPath"]] executablePath] lastPathComponent] retain];
+		_processName = [[[[[NSBundle bundleWithPath:[info objectForKey:@"NSApplicationPath"]] executablePath] lastPathComponent] stringByDeletingPathExtension] retain];
 		
 		NSLog(@"%@ terminated unexpectedly - preparing report", _processName);
 		
