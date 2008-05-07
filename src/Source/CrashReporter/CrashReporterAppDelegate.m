@@ -13,6 +13,8 @@
 #import "SMTPMailDelivery.h"
 #import "SystemProfileReporter.h"
 
+#include "asl-weak.h"
+
 #include <unistd.h>
 #include <sys/sysctl.h>
 
@@ -262,6 +264,7 @@
 		[_alertPanel setLevel:NSStatusWindowLevel];
 		//[_alertPanel orderFrontRegardless];
 		[_alertPanel makeKeyAndOrderFront:self];
+
 		[self _serviceCrashAlert];
 	}
 }
@@ -315,16 +318,69 @@
 			
 			// When the Apple Crash notification is shown the crash data has been gathered
 			// (at least that's what my tests show)
-			if(!firstBlood)
+			firstBlood = YES;
+		}
+	}
+
+	static BOOL displayedOurCrashNotification = NO;
+	
+	if(firstBlood && !displayedOurCrashNotification)
+	{
+		// If we're running on Tiger, we simply assume at this point
+		// that the crash logs have been gathered.  We're not on Tiger,
+		// wait for the "Saved crashreport" message in the Apple
+		// System Log, which indicates that the ReportCrash process has
+		// completely finished writing the crash log file.
+		if(asl_new == NULL || asl_set_query == NULL || asl_search == NULL
+		   || aslresponse_next == NULL || asl_get == NULL
+		   || aslresponse_free == NULL)
+		{
+			[self _displayCrashNotificationForProcess:_processName];
+			
+			displayedOurCrashNotification = YES;
+		}
+		else
+		{
+			aslmsg query = asl_new(ASL_TYPE_QUERY);
+			if(query == NULL) return;
+			
+			const uint32_t facilityQueryOptions = ASL_QUERY_OP_EQUAL;
+			const int aslSetFacilityQueryOptionsReturnCode = asl_set_query(query, ASL_KEY_FACILITY, "Crash Reporter", facilityQueryOptions);
+			if(aslSetFacilityQueryOptionsReturnCode != 0) return;
+			
+			const uint32_t messageQueryOptions = ASL_QUERY_OP_REGEX;
+			const int aslSetMessageQueryReturnCode = asl_set_query(query, ASL_KEY_MSG, "(Formulating crash report for process)|(Saved crashreport to)", messageQueryOptions);
+			if(aslSetMessageQueryReturnCode != 0) return;
+			
+			aslresponse response = asl_search(NULL, query);
+			
+			// We want to 
+			aslmsg lastMessage = NULL;
+			for(;;)
 			{
-				firstBlood = YES;
-				[self _displayCrashNotificationForProcess:_processName];
+				aslmsg nextMessage = aslresponse_next(response);
+				
+				if(nextMessage == NULL) break;
+				else lastMessage = nextMessage;
 			}
+			
+			const char* messageText = asl_get(lastMessage, ASL_KEY_MSG);
+			
+			if(strncmp(messageText, "Saved crashreport to", 20) == 0)
+			{
+				[self _displayCrashNotificationForProcess:_processName];
+				
+				displayedOurCrashNotification = YES;
+			}
+			
+			aslresponse_free(response);
 		}
 	}
 	
 	if(noOfRuns++ < 100) // Don't run forever
+	{
 		[self performSelector:@selector(_suppressAppleCrashNotify) withObject:nil afterDelay:0.1+((float)noOfRuns / 50.0)];
+	}
 	else
 	{
 #if DEBUG
