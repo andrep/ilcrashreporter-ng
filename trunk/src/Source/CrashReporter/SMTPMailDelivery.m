@@ -339,10 +339,12 @@ void base64ChunkFor3Characters(char *buf, const char *inBuf, int numChars);
 #endif
 		if([[NSString stringWithCString:buffer] hasPrefix:@"220"])
 		{
-			char	hostname[256];
+			static size_t HOSTNAME_BUFFER_SIZE = 1024;
+			
+			char	hostname[HOSTNAME_BUFFER_SIZE];
 			
 			// Greet the server
-			if(gethostname(hostname, 256) == 0)
+			if(gethostname(hostname, HOSTNAME_BUFFER_SIZE) == 0)
 				sprintf(buffer, "HELO %s\r\n", hostname);
 			else
 				strcpy(buffer, "HELO localhost\r\n");
