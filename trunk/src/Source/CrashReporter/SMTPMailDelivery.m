@@ -325,7 +325,7 @@ void base64ChunkFor3Characters(char *buf, const char *inBuf, int numChars);
 		if(connect(_serverSocket, (struct sockaddr*)&serverSockAddr, sizeof(serverSockAddr)) == -1)
 		{
 			err++;
-			NSLog(@"Failed to connect to server: %d", errno);
+			NSLog(@"Failed to connect to server at %@ port %d: %d (%s)", server, port, errno, strerror(errno));
 		}
 	}
 	
@@ -366,6 +366,18 @@ void base64ChunkFor3Characters(char *buf, const char *inBuf, int numChars);
 		}
 		else
 			NSLog(@"Unexpected connection reply from server:\n  %s", buffer);
+	}
+	
+	if(err != 0)
+	{
+		// Try reconnecting again to a non-qualified server named "mail"; many ISPs block outgoing connections to port 25 to avoid spam.
+		
+		if(!([server isEqualToString:@"mail"] && port == 25))
+		{
+			NSLog(@"Retrying connection to unqualified mail server...");
+			
+			return [self _connectToServer:@"mail" onPort:25];
+		}
 	}
 	
 	return err == 0 ? _isConnected : NO;
