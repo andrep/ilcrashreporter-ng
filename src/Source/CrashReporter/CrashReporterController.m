@@ -116,6 +116,8 @@
 		if([_delegate respondsToSelector:@selector(userDidCancelCrashReport)])
 			[_delegate userDidCancelCrashReport];
 	}
+	
+	[NSApp terminate:nil];
 }
 
 - (void)setDelegate:(id)delegate
