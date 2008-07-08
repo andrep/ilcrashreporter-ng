@@ -107,7 +107,7 @@
 		6AF6C3BD06B061CF00C4D0C9 /* ILCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILCrashReporter.h; sourceTree = "<group>"; wrapsLines = 0; };
 		6AF6C3BE06B061CF00C4D0C9 /* ILCrashReporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILCrashReporter.m; sourceTree = "<group>"; };
 		6AF6C41806B18B4800C4D0C9 /* CrashReporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CrashReporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6AF6C41D06B18B7700C4D0C9 /* CrashReporter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = "CrashReporter-Info.plist"; sourceTree = "<group>"; };
+		6AF6C41D06B18B7700C4D0C9 /* CrashReporter-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "CrashReporter-Info.plist"; sourceTree = "<group>"; };
 		6AF6C41E06B18B7700C4D0C9 /* CrashReporterAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CrashReporterAppDelegate.h; sourceTree = "<group>"; };
 		6AF6C41F06B18B7700C4D0C9 /* CrashReporterAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CrashReporterAppDelegate.m; sourceTree = "<group>"; };
 		6AF6C42006B18B7700C4D0C9 /* CrashReporterController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CrashReporterController.h; sourceTree = "<group>"; };
@@ -478,7 +478,6 @@
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
 				INFOPLIST_FILE = "Source/CrashReporter/CrashReporter-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-weak_reference_mismatches",
@@ -721,6 +720,93 @@
 			};
 			name = "Development 10.2";
 		};
+		7BC4AE8E0E2337F80030DC76 /* Release_Symbols */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1.2.4a1;
+				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				STRIP_INSTALLED_PRODUCT = NO;
+			};
+			name = Release_Symbols;
+		};
+		7BC4AE8F0E2337F80030DC76 /* Release_Symbols */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A07290C08551BCB00BC12AD /* Deployment.xcconfig */;
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/Framework/ILCrashReporter_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Source/Framework/Resources/Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_STYLE = Dynamic;
+				MACH_O_TYPE = mh_dylib;
+				OTHER_LDFLAGS = (
+					"-seg1addr",
+					0xEBF80000,
+				);
+				PRODUCT_NAME = ILCrashReporter;
+				SECTORDER_FLAGS = "";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release_Symbols;
+		};
+		7BC4AE900E2337F80030DC76 /* Release_Symbols */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A07290C08551BCB00BC12AD /* Deployment.xcconfig */;
+			buildSettings = {
+				ADDITIONAL_SDKS = "MacOSX10.5-CrashReporterSupport.sdk";
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Source/Framework/ILCrashReporter_Prefix.pch;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				INFOPLIST_FILE = "Source/CrashReporter/CrashReporter-Info.plist";
+				INSTALL_PATH = "$(USER_APPS_DIR)";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-weak_reference_mismatches",
+					error,
+					"-F/System/Library/PrivateFrameworks",
+					"-weak_framework",
+					CrashReporterSupport,
+				);
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = CrashReporter;
+				SECTORDER_FLAGS = "";
+				SKIP_INSTALL = YES;
+				WARNING_CFLAGS = "-Wmost";
+				ZERO_LINK = NO;
+			};
+			name = Release_Symbols;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -729,6 +815,7 @@
 			buildConfigurations = (
 				6A0728F408551A2000BC12AD /* Debug */,
 				6A0728F508551A2000BC12AD /* Release */,
+				7BC4AE900E2337F80030DC76 /* Release_Symbols */,
 				6A0728F608551A2000BC12AD /* Development 10.2 */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -739,6 +826,7 @@
 			buildConfigurations = (
 				6A0728F908551A2000BC12AD /* Debug */,
 				6A0728FA08551A2000BC12AD /* Release */,
+				7BC4AE8F0E2337F80030DC76 /* Release_Symbols */,
 				6A0728FB08551A2000BC12AD /* Development 10.2 */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -749,6 +837,7 @@
 			buildConfigurations = (
 				6A0728FE08551A2000BC12AD /* Debug */,
 				6A0728FF08551A2000BC12AD /* Release */,
+				7BC4AE8E0E2337F80030DC76 /* Release_Symbols */,
 				6A07290008551A2000BC12AD /* Development 10.2 */,
 			);
 			defaultConfigurationIsVisible = 0;
