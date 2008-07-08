@@ -26,12 +26,22 @@ static NSTask			*_reporterTask = nil;
 	[self launchReporterForCompany:company reportAddr:reportAddr fromAddr:reportAddr];
 }
 
+- (void)launchReporterForCompany:(NSString*)company reportAddr:(NSString*)reportAddr userInfo:(NSString*)userInfo
+{
+	[self launchReporterForCompany:company reportAddr:reportAddr fromAddr:reportAddr smtpServer:nil smtpPort:25 userInfo:userInfo];
+}
+
 - (void)launchReporterForCompany:(NSString*)company reportAddr:(NSString*)reportAddr fromAddr:(NSString*)fromAddr
 {
 	[self launchReporterForCompany:company reportAddr:reportAddr fromAddr:fromAddr smtpServer:nil smtpPort:25];
 }
 
 - (void)launchReporterForCompany:(NSString*)company reportAddr:(NSString*)reportAddr fromAddr:(NSString*)fromAddr smtpServer:(NSString*)smtpServer smtpPort:(int)smtpPort
+{
+	[self launchReporterForCompany:company reportAddr:reportAddr fromAddr:fromAddr smtpServer:nil smtpPort:25 userInfo:@""];
+}
+
+- (void)launchReporterForCompany:(NSString*)company reportAddr:(NSString*)reportAddr fromAddr:(NSString*)fromAddr smtpServer:(NSString*)smtpServer smtpPort:(int)smtpPort userInfo:(NSString*)userInfo
 {
     //NSPipe          *pipe;
     NSBundle        *bundle;
@@ -40,6 +50,9 @@ static NSTask			*_reporterTask = nil;
     NSMutableArray	*args;
     int             pid;
     
+	// Kill any already running CrashReporter instances
+	[self terminate];
+
 	if(!_reporterTask)
 	{
 		_reporterTask = [[NSTask alloc] init];
@@ -69,6 +82,7 @@ static NSTask			*_reporterTask = nil;
 			@"-company", company,
 			@"-reportAddr", reportAddr,
 			@"-fromAddr", fromAddr,
+			@"-userInfo", userInfo, 
 			nil];
 		
 		if(smtpServer && ![smtpServer isEqualToString:@""])

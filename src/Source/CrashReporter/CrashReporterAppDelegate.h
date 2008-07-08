@@ -18,6 +18,7 @@
 	NSString				*_reportEmail;
 	NSString				*_fromEmail;
 	NSString				*_smtpServer;
+	NSString				*_userInfo;
 	int						_smtpPort;
 	id						_alertPanel;
 	NSModalSession			_alertSession;

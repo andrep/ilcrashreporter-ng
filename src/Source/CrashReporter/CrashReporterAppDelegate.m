@@ -78,14 +78,21 @@
 		name = [report objectForKey:@"name"];
 		email = [report objectForKey:@"email"];
 		notes = [report objectForKey:@"notes"];
+		
+		NSString* userInfoString = ([_userInfo length] > 0) ? [NSString stringWithFormat:@"\n\nUser Info: %@\n", _userInfo] : @"";
+		
 		if(name || email)
-			mailMessage = [NSString stringWithFormat:NSLocalizedString(@"Reported by: %@ <%@>\n\n%@", @"Report template"), name, email, notes];
+		{
+			mailMessage = [NSString stringWithFormat:NSLocalizedString(@"Reported by: %@ <%@>\n\n%@%@", @"Report template"), name, email, notes, userInfoString];
+		}
 		else
-			mailMessage = notes;
+		{
+			mailMessage = [NSString stringWithFormat:@"%@%@", notes, userInfoString];
+		}
 		
 		log = [report objectForKey:@"crashlog"];
 		logName = [NSString stringWithFormat:@"%@.crash.log", _processName];
-		fw = [[NSFileWrapper alloc] initRegularFileWithContents:[log dataUsingEncoding:NSUTF8StringEncoding]]; 
+		fw = [[NSFileWrapper alloc] initRegularFileWithContents:[log dataUsingEncoding:NSUTF8StringEncoding]];
 		[fw setFilename:logName]; 
 		[fw setPreferredFilename:logName]; 
 		[attachments addObject:fw];
@@ -200,10 +207,12 @@
 	
 	//NSLog(@"applicationDidFinishLaunching:");
 	_processToWatch = [defaults integerForKey:@"pidToWatch"];
-	_companyName = [defaults stringForKey:@"company"];
-	_reportEmail = [defaults stringForKey:@"reportAddr"];
-	_fromEmail = [defaults stringForKey:@"fromAddr"];
-	_smtpServer = [defaults stringForKey:@"smtpServer"];
+	_companyName = [[defaults stringForKey:@"company"] copy];
+	_reportEmail = [[defaults stringForKey:@"reportAddr"] copy];
+	_fromEmail = [[defaults stringForKey:@"fromAddr"] copy];
+	_smtpServer = [[defaults stringForKey:@"smtpServer"] copy];
+	_userInfo = [[defaults stringForKey:@"userInfo"] copy];
+	NSLog(@"read userInfo: %@", _userInfo);
 	if([defaults objectForKey:@"smtpPort"])
 		_smtpPort = [defaults integerForKey:@"smtpPort"];
 	
