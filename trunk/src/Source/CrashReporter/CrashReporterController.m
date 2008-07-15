@@ -178,6 +178,19 @@
 	}
 }
 
++ (NSString*)usersEmailAddress
+{
+	ABMultiValue* emailValues = [[[ABAddressBook sharedAddressBook] me] valueForProperty:kABEmailProperty];
+	if([emailValues count] == 0) return nil;
+	
+	NSString* primaryEmailAddress = [emailValues valueAtIndex:[emailValues indexForIdentifier:[emailValues primaryIdentifier]]];
+	
+	NSLog(@"primaryEmailAddress: %@", primaryEmailAddress);
+	
+	if(primaryEmailAddress) return primaryEmailAddress;
+	else return [emailValues valueAtIndex:0];
+}
+
 @end
 
 @implementation CrashReporterController(Private)
@@ -225,20 +238,8 @@
 		[nameField setStringValue:NSFullUserName()];
 	}
 	
-	// Email
-	if(me)
-	{
-		ABMultiValue *mails = [me valueForProperty:kABEmailProperty];
-		if(mails && [mails count])
-		{
-			NSString	*email = [mails valueAtIndex:[mails indexForIdentifier:[mails primaryIdentifier]]];
-			
-			if(!email)
-				email = [mails valueAtIndex:0];
-			if(email)
-				[emailField setStringValue:email];
-		}
-	}
+	NSString* emailAddress = [CrashReporterController usersEmailAddress];
+	if(emailAddress) [emailField setStringValue:emailAddress];
 }
 
 - (NSString*)pathToCrashLogForApplication:(NSString*)appName
