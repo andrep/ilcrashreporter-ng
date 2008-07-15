@@ -185,8 +185,6 @@
 	
 	NSString* primaryEmailAddress = [emailValues valueAtIndex:[emailValues indexForIdentifier:[emailValues primaryIdentifier]]];
 	
-	NSLog(@"primaryEmailAddress: %@", primaryEmailAddress);
-	
 	if(primaryEmailAddress) return primaryEmailAddress;
 	else return [emailValues valueAtIndex:0];
 }
