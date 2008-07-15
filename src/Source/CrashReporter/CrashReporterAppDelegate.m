@@ -212,7 +212,6 @@
 	_fromEmail = [[defaults stringForKey:@"fromAddr"] copy];
 	_smtpServer = [[defaults stringForKey:@"smtpServer"] copy];
 	_userInfo = [[defaults stringForKey:@"userInfo"] copy];
-	NSLog(@"read userInfo: %@", _userInfo);
 	if([defaults objectForKey:@"smtpPort"])
 		_smtpPort = [defaults integerForKey:@"smtpPort"];
 	
@@ -236,6 +235,11 @@
 														   selector:@selector(_appLaunched:)
 															   name:NSWorkspaceDidLaunchApplicationNotification
 															 object:nil];
+
+	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
+														selector:@selector(_displayReportDialog:)
+															name:@"ILCrashReporterSubmitCrashReportNow"
+														  object:nil];
 	if([defaults boolForKey:@"EnableInterfaceTest"])
 	{
 		[[NSDistributedNotificationCenter defaultCenter] addObserver:self
@@ -252,7 +256,15 @@
 - (void)_displayCrashNotificationTest:(NSNotification*)notification
 {
 	_processName = [[notification object] retain];
+
 	[self _displayCrashNotificationForProcess:_processName];
+}
+
+- (void)_displayReportDialog:(NSNotification*)notification
+{
+	_processName = [[notification object] retain];
+
+	[reportController prepareReportForApplication:_processName process:_processToWatch companyName:_companyName];
 }
 
 - (void)_displayCrashNotificationForProcess:(NSString*)processName
@@ -335,8 +347,8 @@
 	
 	if(firstBlood && !displayedOurCrashNotification)
 	{
-		// If we're running on Tiger, we simply assume at this point
-		// that the crash logs have been gathered.  We're not on Tiger,
+		// If we're running on 10.4 or below, we simply assume at this point
+		// that the crash logs have been gathered.  If we're on 10.5+,
 		// wait for the "Saved crashreport" message in the Apple
 		// System Log, which indicates that the ReportCrash process has
 		// completely finished writing the crash log file.
