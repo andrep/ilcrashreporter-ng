@@ -55,6 +55,7 @@
 	NSString* _SMTPServer;
 	uint16_t _SMTPPort;
 	NSString* _userInfo;
+	BOOL _embedFromAddressInEmailSubject;
 }
 
 // The following methods are the new-skool way to use ILCrashReporter.  Allocate a new instance of ILCrashReporter with [[ILCrashCrashReporter alloc] init], and then use the following methods to set the various properties on it and launch a crash monitoring process.
@@ -66,6 +67,7 @@
 @property (copy) NSString* SMTPServer;
 @property uint16_t SMTPPort;
 @property (copy) NSString* userInfo;
+@property BOOL _embedFromAddressInEmailSubject;
 #else
 
 // The localized company name that will be displayed to the user in the crash report user interface, e.g. "Realmac Software".
@@ -91,6 +93,10 @@
 // This is an arbitrary string that will be embedded in the crash report email, as a "User Info:" field.  It's useful if you need to specify additional information in the crash report, e.g. a customer's ID number or registration code if you'd like to contact them.
 - (NSString*)userInfo;
 - (void)setUserInfo:(NSString*)value;
+
+// Embeds the "From: " address into the subject line of the email.  This enables more a useful threaded in certain mail clients (such as Apple Mail).
+- (BOOL)embedFromAddressInEmailSubject;
+- (void)setEmbedFromAddressInEmailSubject:(BOOL)value;
 #endif
 
 /*!

@@ -96,6 +96,16 @@
     }
 }
 
+- (BOOL)embedFromAddressInEmailSubject {
+    return _embedFromAddressInEmailSubject;
+}
+
+- (void)setEmbedFromAddressInEmailSubject:(BOOL)value {
+    if (_embedFromAddressInEmailSubject != value) {
+        _embedFromAddressInEmailSubject = value;
+    }
+}
+
 - (void)launchReporterForCompany:(NSString*)company reportAddr:(NSString*)reportAddr
 {
 	[self launchReporterForCompany:company reportAddr:reportAddr fromAddr:reportAddr];
@@ -146,9 +156,10 @@
 	const int pid = [procInfo processIdentifier];
 	NSMutableArray* args = [NSMutableArray arrayWithObjects:
 							@"-pidToWatch", [NSString stringWithFormat:@"%d", pid],
-							@"-company", [self companyName],
-							@"-reportAddr", [self reportAddress],
-							@"-fromAddr", [self fromAddress],
+							@"-company", [self companyName] ? [self companyName] : @"",
+							@"-reportAddr", [self reportAddress] ? [self reportAddress] : @"",
+							@"-fromAddr", [self fromAddress] ? [self fromAddress] : @"",
+							@"-embedFromAddressInEmailSubject", [self embedFromAddressInEmailSubject] ? @"YES" : @"NO",
 							nil];
 	
 	if([[self userInfo] length] > 0)

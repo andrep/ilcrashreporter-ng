@@ -62,7 +62,7 @@
 		
 		//NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults]; 
 		//NSString* smtpFromAddress = [defaults stringForKey:PMXSMTPFromAddress]; 
-		NSString	*subject;
+		NSMutableString	*subject;
 		BOOL sent = NO; 
 		NSFileWrapper* fw; 
 		//NSTextAttachment* ta; 
@@ -106,8 +106,11 @@
 		
 		//ta = [[NSTextAttachment alloc] initWithFileWrapper:fw];
 		//msg = [NSAttributedString attributedStringWithAttachment:ta]; 
-		subject = [NSString stringWithFormat:NSLocalizedString(@"Crash report for \"%@\"", "Crash report window title"), _processName];
-		
+		subject = [NSMutableString stringWithFormat:NSLocalizedString(@"Crash report for \"%@\"", "Crash report window title"), _processName];
+		if(_embedFromAddressInEmailSubject)
+		{
+			[subject appendFormat:@" - %@", _fromEmail];
+		}
 		
 #if 1
 		NSData *rawMail = [SMTPMailDelivery mailMessage:mailMessage 
@@ -205,13 +208,16 @@
 	
 	defaults = [NSUserDefaults standardUserDefaults];
 	
-	//NSLog(@"applicationDidFinishLaunching:");
 	_processToWatch = [defaults integerForKey:@"pidToWatch"];
 	_companyName = [[defaults stringForKey:@"company"] copy];
 	_reportEmail = [[defaults stringForKey:@"reportAddr"] copy];
+
 	_fromEmail = [[defaults stringForKey:@"fromAddr"] copy];
+	if([_fromEmail length] == 0) _fromEmail = [[CrashReporterController usersEmailAddress] copy];
+	
 	_smtpServer = [[defaults stringForKey:@"smtpServer"] copy];
 	_userInfo = [[defaults stringForKey:@"userInfo"] copy];
+	_embedFromAddressInEmailSubject = [defaults boolForKey:@"embedFromAddressInEmailSubject"];
 	if([defaults objectForKey:@"smtpPort"])
 		_smtpPort = [defaults integerForKey:@"smtpPort"];
 	
