@@ -19,6 +19,7 @@
 	NSString				*_fromEmail;
 	NSString				*_smtpServer;
 	NSString				*_userInfo;
+	BOOL					_embedFromAddressInEmailSubject;
 	int						_smtpPort;
 	id						_alertPanel;
 	NSModalSession			_alertSession;
