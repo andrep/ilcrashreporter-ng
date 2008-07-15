@@ -30,6 +30,8 @@
 	BOOL	_hasSubmittedReport;
 }
 
++ (NSString*)usersEmailAddress;
+
 - (void)prepareReportForApplication:(NSString*)appName process:(int)processID companyName:(NSString*)companyName;
 - (IBAction)submitReport:(id)sender;
 
