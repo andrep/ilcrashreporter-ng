@@ -371,12 +371,12 @@
 			aslmsg query = asl_new(ASL_TYPE_QUERY);
 			if(query == NULL) return;
 			
-			const uint32_t facilityQueryOptions = ASL_QUERY_OP_EQUAL;
-			const int aslSetFacilityQueryOptionsReturnCode = asl_set_query(query, ASL_KEY_FACILITY, "Crash Reporter", facilityQueryOptions);
+			const uint32_t facilityQueryOptions = ASL_QUERY_OP_REGEX;
+			const int aslSetFacilityQueryOptionsReturnCode = asl_set_query(query, ASL_KEY_FACILITY, "(Crash Reporter)|(ReportCrash)", facilityQueryOptions);
 			if(aslSetFacilityQueryOptionsReturnCode != 0) return;
 			
 			const uint32_t messageQueryOptions = ASL_QUERY_OP_REGEX;
-			const int aslSetMessageQueryReturnCode = asl_set_query(query, ASL_KEY_MSG, "(Formulating crash report for process)|(Saved crashreport to)", messageQueryOptions);
+			const int aslSetMessageQueryReturnCode = asl_set_query(query, ASL_KEY_MSG, "(Formulating crash report for process)|(Saved crashreport to)|(Saved crash report for)", messageQueryOptions);
 			if(aslSetMessageQueryReturnCode != 0) return;
 			
 			aslresponse response = asl_search(NULL, query);
@@ -393,7 +393,8 @@
 			
 			const char* messageText = asl_get(lastMessage, ASL_KEY_MSG);
 			
-			if(strncmp(messageText, "Saved crashreport to", 20) == 0)
+			if(messageText &&
+			   ((strncmp(messageText, "Saved crashreport to", 20) == 0) || (strncmp(messageText, "Saved crash report for", 22) == 0)))
 			{
 				[self _displayCrashNotificationForProcess:_processName];
 				
