@@ -332,6 +332,8 @@
 	
 	// This is a dirty, rotten hack but it seems to work
 	err = GetAllPIDsForProcessName("UserNotificationCenter", pids, 50, &noOfPids, nil);
+	if(err != 0)
+		err = GetAllPIDsForProcessName("Problem Reporter", pids, 50, &noOfPids, nil);
 	if(err == 0)
 	{
 		int i;
@@ -371,13 +373,15 @@
 			aslmsg query = asl_new(ASL_TYPE_QUERY);
 			if(query == NULL) return;
 			
-			const uint32_t facilityQueryOptions = ASL_QUERY_OP_REGEX;
-			const int aslSetFacilityQueryOptionsReturnCode = asl_set_query(query, ASL_KEY_FACILITY, "(Crash Reporter)|(ReportCrash)", facilityQueryOptions);
+			const uint32_t facilityQueryOptions = ASL_QUERY_OP_EQUAL;
+			const int aslSetFacilityQueryOptionsReturnCode = asl_set_query(query, ASL_KEY_SENDER, "ReportCrash", facilityQueryOptions);
 			if(aslSetFacilityQueryOptionsReturnCode != 0) return;
-			
-			const uint32_t messageQueryOptions = ASL_QUERY_OP_REGEX;
-			const int aslSetMessageQueryReturnCode = asl_set_query(query, ASL_KEY_MSG, "(Formulating crash report for process)|(Saved crashreport to)|(Saved crash report for)", messageQueryOptions);
-			if(aslSetMessageQueryReturnCode != 0) return;
+
+			// Rumor has it that ASL_QUERY_OP_REGEX doesn't currently work in certain OSes.  The authorities have been notified.
+			// We plow through to the last message below anyway, thus this additional condition is just an optimization, so we leave it out for now.
+//			const uint32_t messageQueryOptions = ASL_QUERY_OP_REGEX;
+//			const int aslSetMessageQueryReturnCode = asl_set_query(query, ASL_KEY_MSG, "(Formulating crash report for process)|(Saved crashreport to)|(Saved crash report for)", messageQueryOptions);
+//			if(aslSetMessageQueryReturnCode != 0) return;
 			
 			aslresponse response = asl_search(NULL, query);
 			
