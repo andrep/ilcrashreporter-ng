@@ -409,8 +409,11 @@
 		}
 	}
 	
-	if(noOfRuns++ < 100) // Don't run forever
+	if(!displayedOurCrashNotification && (noOfRuns++ < 100)) // Don't run forever
 	{
+#if DEBUG
+		NSLog(@"No crashreport available yet, waiting and trying again...");
+#endif	
 		[self performSelector:@selector(_suppressAppleCrashNotify) withObject:nil afterDelay:0.1+((float)noOfRuns / 50.0)];
 	}
 	else
@@ -418,7 +421,7 @@
 #if DEBUG
 		NSLog(@"Bye bye");
 #endif
-		if (!firstBlood) {
+		if (!displayedOurCrashNotification) {
 			_shouldQuit = YES;
 			[NSApp terminate:self];
 		}
