@@ -1,0 +1,1 @@
+ILCrashReporter-NG is a fork of [ILCrashReporter](http://www.infinite-loop.dk/developer/), due to the original developer being unresponsive with patches.  It fixes up some minor bugs, but also sends crash reports to Apple as well as the designated developer, since Apple supposedly collect a lot of statistics and perform data mining on their crash reports.
